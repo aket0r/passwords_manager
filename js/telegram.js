@@ -34,7 +34,7 @@ bot.on('message', function(req) {
 
         case '/user':
             if(!settingsCfg) {
-                bot.sendMessage(chat_id, `Пользователь *${player.user.login}*\n\nТекущий IP: *${player.user.ip}*\nРгеистрация: *${player.user.createdAt}*\nПаролей: *авторизуйстесь*\nВремя проведённое в приложении: *${usrTime.h}:${usrTime.m}:${usrTime.s}*\n\nСчётчик:\nОшибок входа: ${player.counter.fail_access}\nАвторизаций: ${player.counter.login_times}`, {
+                bot.sendMessage(chat_id, `Пользователь *${player.user.login}*\n\nТекущий IP: *${player.user.ip}*\nРгеистрация: *${player.user.createdAt}*\nПаролей: *авторизуйстесь*\nUptime: *${usrTime.h}:${usrTime.m}:${usrTime.s}*\n\nСчётчик:\nОшибок входа: ${player.counter.fail_access}\nАвторизаций: ${player.counter.login_times}`, {
                     parse_mode: 'Markdown'
                 });
             } else {
