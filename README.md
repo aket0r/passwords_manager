@@ -3,7 +3,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Platform-Electron-blue" />
   <img src="https://img.shields.io/badge/Node.js-18.x-green" />
-  <img alt="Static Badge" src="https://img.shields.io/badge/Status-80%25%20complete-green">
+  <img alt="Static Badge" src="https://img.shields.io/badge/Status-100%25%20complete-green">
   <img src="https://img.shields.io/badge/License-MIT-blue.svg" />
   <img alt="Static Badge" src="https://img.shields.io/badge/SCSS-29.7%25-blue">
   <img alt="Static Badge" src="https://img.shields.io/badge/Languages-6-blue">
