@@ -81,7 +81,7 @@
 ### 📥 Клонирование репозитория
 
 ```bash
-git clone https://github.com/aket0r/passwords_2_7_5.git
+git clone https://github.com/aket0r/passwords_manager
 cd passwords_2_7_5
 ```
 
