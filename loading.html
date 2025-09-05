@@ -68,7 +68,7 @@
     const path = require("path");
 
     // === Настройки (можно вынести в .env и прокинуть через process.env) ===
-    const MONGODB_DOWNLOAD_URL = process.env.MONGODB_DOWNLOAD_URL || "";// например: "https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-7.0.13-signed.msi"
+    const MONGODB_DOWNLOAD_URL = process.env.MONGODB_DOWNLOAD_URL || "https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-8.0.13-signed.msi";
     const MONGODB_EXPECTED_BIN = process.env.MONGODB_BIN || "";          // если знаешь точный путь к mongod.exe
 
     const statusEl = document.getElementById("status");
@@ -150,15 +150,29 @@
         log("❌ Не задан MONGODB_DOWNLOAD_URL. Укажи ссылку на MSI Community в .env или в коде.");
         return false;
       }
+
+      const tmp = path.join(os.tmpdir(), "mongodb.msi");
+
       try {
-        const tmp = path.join(os.tmpdir(), "mongodb.msi");
+        if (fs.existsSync(tmp)) fs.unlinkSync(tmp);
+
         log("Скачиваю MongoDB MSI…");
-        // Скачаем через PowerShell (у пользователя обычно есть)
-        await execPromise(`powershell -Command "Invoke-WebRequest -Uri '${MONGODB_DOWNLOAD_URL}' -OutFile '${tmp}'"`);
+        log(`Файл будет скачан в: "${tmp}"`);
+        log("Пожалуйста, не закрывайте приложение...");
+
+        try {
+          await execPromise(`curl -L -o "${tmp}" "${MONGODB_DOWNLOAD_URL}"`);
+        } catch {
+          await execPromise(
+            `powershell -NoProfile -ExecutionPolicy Bypass -Command "Invoke-WebRequest -Uri '${MONGODB_DOWNLOAD_URL}' -OutFile '${tmp}'"`
+          );
+        }
 
         log("Запускаю тихую установку (потребуются права администратора)…");
-        // /qn — тихо, /norestart — без перезагрузки
-        await execPromise(`msiexec /i "${tmp}" /qn /norestart`);
+
+        await execPromise(
+          `powershell -NoProfile -Command "Start-Process msiexec -ArgumentList '/i','${tmp.replace(/\\/g, '\\\\')}','/qn','/norestart' -Verb RunAs -Wait"`
+        );
 
         log("MongoDB установлена. Проверяю бинарник…");
         const bin = findMongoWindows();
@@ -168,10 +182,20 @@
         }
         log("⚠️ Установка прошла, но бинарник не найден по стандартным путям. Проверь вручную.");
         return false;
+
       } catch (err) {
         log("❌ Ошибка авто-установки: " + err.message);
+        log("Пробую открыть установщик вручную…");
+        try {
+          const { shell } = require("electron");
+          const res = await shell.openPath(tmp);
+          if (res) log("Shell openPath предупреждение: " + res);
+        } catch (e) {
+          await execPromise(`cmd /c start "" "${tmp}"`);
+        }
         return false;
       }
+
     }
 
     async function ensureMongo() {
