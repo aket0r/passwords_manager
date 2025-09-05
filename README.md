@@ -1,4 +1,4 @@
-# 🛡️ Passwords Manager 3.0
+# 🛡️ Passwords Manager 3.0.5-beta (MongoDB)
 
 <p align="center">
   <img src="https://img.shields.io/badge/Platform-Electron-blue" />
@@ -7,6 +7,7 @@
   <img src="https://img.shields.io/badge/License-MIT-blue.svg" />
   <img alt="Static Badge" src="https://img.shields.io/badge/SCSS-29.7%25-blue">
   <img alt="Static Badge" src="https://img.shields.io/badge/Languages-6-blue">
+  <img src="https://img.shields.io/badge/MongoDB-4ea94b?style=for-the-badge&logo=mongodb&logoColor=white" />
 </p>
 
 <p align="center">
@@ -17,14 +18,35 @@
   <img src="https://img.shields.io/badge/Less-1D365D?style=for-the-badge&logo=less&logoColor=white" />
   <img src="https://img.shields.io/badge/bat-4D4D4D?style=for-the-badge&logo=windows&logoColor=white" />
   <img src="https://img.shields.io/badge/CSS-264de4?style=for-the-badge&logo=css3&logoColor=white" />
+  <img src="https://img.shields.io/badge/MongoDB-4ea94b?style=for-the-badge&logo=mongodb&logoColor=white" />
 </p>
 
 <p align="center"><b>Minimalist password manager with offline local storage and optional Telegram integration.</b></p>
 
-> ✅ В версии 3.0 реализован безопасный запуск через предварительный экран и улучшенная адаптивность интерфейса.
+
+
 
 ---
 
+## ⚠️ Важно:
+
+> Версия `3.0.5-beta` использует **MongoDB** вместо файлов JSON.
+>
+> Убедитесь, что MongoDB установлена и запущена локально перед запуском приложения.
+>
+> **Обычные пользователи:** просто установите MongoDB и запустите приложение.
+>
+> **Разработчики:** следуйте инструкциям ниже для запуска MongoDB и подключения.
+
+```bash
+# Пример установки MongoDB (на Windows)
+choco install mongodb
+
+# Запуск MongoDB вручную (если не как сервис)
+mongod --dbpath C:/data/db
+```
+
+---
 ## 🚀 Новое в версии 3.0
 
 - 🧪 Добавлен загрузочный экран `loading.html`:
@@ -142,6 +164,7 @@ npm run build-mac
   <img src="https://github.com/user-attachments/assets/ee47b54e-a339-4a20-8bfd-c2c23e49d3d7" width="350" />
   <img src="https://github.com/user-attachments/assets/5b0993b4-c36e-4da4-bce2-3faaaab354ef" width="350" />
   <img src="https://github.com/user-attachments/assets/5fc81f15-bfd2-4818-b91c-d54c6a32bfef" width="350" />
+  <img src="https://img.shields.io/badge/MongoDB-4ea94b?style=for-the-badge&logo=mongodb&logoColor=white" />
 </p>
 
 ---
