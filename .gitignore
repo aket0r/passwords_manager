@@ -42,3 +42,4 @@ logs.txt
 .Trashes
 ehthumbs.db
 Thumbs.db
+*.env

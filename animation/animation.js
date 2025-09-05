@@ -1,10 +1,10 @@
-const version = '2.7.5';
+const version = '3.0.5b';
 const forms = document.querySelectorAll("form");
 
 forms.forEach(form => {
     if (!form) return;
 
-    form.addEventListener("submit", function(e) {
+    form.addEventListener("submit", function (e) {
         e.preventDefault();
     })
 })
@@ -14,13 +14,13 @@ forms.forEach(form => {
 const closeCreatebarBtn = document.querySelector("#close-created-bar-btn");
 const createBar = document.querySelector("#create-new-pass-bar");
 
-closeCreatebarBtn.addEventListener("click", function() {
+closeCreatebarBtn.addEventListener("click", function () {
     createBar.classList.add("hidden-animation");
 });
 
 
 const addNewPasswordBtn = document.querySelector("#create-new-password");
-addNewPasswordBtn.addEventListener("click", function() {
+addNewPasswordBtn.addEventListener("click", function () {
     createBar.classList.remove("hidden-animation");
 });
 
@@ -29,10 +29,10 @@ const numbersJoinBtns = document.querySelectorAll(".numbers-join div");
 const userPincodeInput = document.querySelector("#user-pincode-auth");
 const userPincodeAuthInput = document.querySelector("#user-pincode");
 const nextBtns = document.querySelectorAll("#next");
-for(let i = 0; i < numbersBtns.length; i++) {
-    numbersBtns[i].addEventListener("click", function() {
+for (let i = 0; i < numbersBtns.length; i++) {
+    numbersBtns[i].addEventListener("click", function () {
         userPincodeInput.value += this.innerText;
-        if(!(userPincodeInput.value.length < 4)) {
+        if (!(userPincodeInput.value.length < 4)) {
             let str = userPincodeInput.value.slice(0, 4);
             nextBtns[1].innerHTML = "Продолжить"
             userPincodeInput.value = str;
@@ -41,17 +41,17 @@ for(let i = 0; i < numbersBtns.length; i++) {
         }
     })
 }
-for(let i = 0; i < numbersBtns.length; i++) {
-    numbersJoinBtns[i].addEventListener("click", function() {
+for (let i = 0; i < numbersBtns.length; i++) {
+    numbersJoinBtns[i].addEventListener("click", function () {
         userPincodeAuthInput.value += this.innerText;
-        if(userPincodeAuthInput.value.length >= 4) {
+        if (userPincodeAuthInput.value.length >= 4) {
             let str = userPincodeAuthInput.value.slice(0, 4);
             userPincodeAuthInput.value = str;
         }
     })
 }
 
-userPincodeInput.addEventListener("keyup", function(event) {
+userPincodeInput.addEventListener("keyup", function (event) {
     if (this.value.trim() !== "") {
         if (event.key === "Enter") {
             const nextBtn = document.querySelectorAll("#next")[1];
@@ -69,7 +69,7 @@ const loginAccBtn = document.querySelector("#wr-join-in-account");
 function authRequest(useMessage = true) {
     let win = document.querySelector(".pincode");
     let value = userPincodeAuthInput.value;
-    if(wrongCounter == 3) {
+    if (wrongCounter == 3) {
         useMessage === true ? sendMessage(`Ошибка авторизации.\nIP: ${IP}\nДата: ${new Date().toISOString()}`) : '';
         notification.use('#Auth_notification_code', 'Попробуйте другие способы.');
         let pinWin = document.querySelector(".main-content");
@@ -78,18 +78,18 @@ function authRequest(useMessage = true) {
         pinWin.classList.add("hidden-animation");
         return;
     }
-    
-    if(player.user.pincode == value) {
+
+    if (player[0].user.pincode == value) {
         win.classList.add("hidden-animation");
         logs.use(null, `Успешная авторизация. IP: ${IP}`, 'success');
         sendMessage(`Успешная авторизация.\nIP: ${IP}\nДата: ${new Date().toISOString()}`);
         notification.use("System", `Вход в аккаунт\nIP: ${IP}\n\nДата: ${new Date().toLocaleString()}`);
-        player.counter.login_times++;
+        player[0].counter.login_times++;
         user.update();
         content.load(true);
     } else {
-        player.counter.wrong_pincode_count++;
-        player.counter.fail_access++;
+        player[0].counter.wrong_pincode_count++;
+        player[0].counter.fail_access++;
         logs.use(null, `Неверный пин-код. IP: ${IP}`, 'error');
         value = '';
         user.update();
@@ -97,13 +97,13 @@ function authRequest(useMessage = true) {
     }
 }
 
-joinAccBtn.addEventListener("click", function() {
+joinAccBtn.addEventListener("click", function () {
     authRequest();
 });
 
-joinAccInput.addEventListener("keyup", function(e) {
+joinAccInput.addEventListener("keyup", function (e) {
     const k = e.key;
-    if(k == 'Enter') {
+    if (k == 'Enter') {
         authRequest();
     }
 });
@@ -116,7 +116,7 @@ let timer = document.querySelector(".timer");
 let h2Title = document.querySelector(".timer h2");
 
 function doesItWrong() {
-    if(wrongCounter2 >= 3) {
+    if (wrongCounter2 >= 3) {
         login_v.disabled = true;
         pass_v.disabled = true;
         loginAccBtn.disabled = true;
@@ -125,7 +125,7 @@ function doesItWrong() {
         accesInit = setInterval(() => {
             accesInitTime--;
             h2Title.innerText = accesInitTime;
-            if(accesInitTime  <= 0)  {
+            if (accesInitTime <= 0) {
                 timer.classList.add("hidden-animation");
                 accesInitTime = 60;
                 h2Title.innerText = accesInitTime;
@@ -144,27 +144,27 @@ function doesItWrong() {
     }
 }
 
-loginAccBtn.addEventListener('click', function() {
+loginAccBtn.addEventListener('click', function () {
     doesItWrong();
 
-    if(!(login_v.value == player.user.login)) {
-        player.counter.wrong_login_count++;
-        player.counter.wrong_pass_count++;
-        player.counter.fail_access++;
+    if (!(login_v.value == player[0].user.login)) {
+        player[0].counter.wrong_login_count++;
+        player[0].counter.wrong_pass_count++;
+        player[0].counter.fail_access++;
         logs.use(null, `Неверный логин или пароль. IP: ${IP}`, 'error');
         user.update();
         wrongCounter2++;
         console.log("Wrong login!");
         return;
     }
-    
-    if(pass_v.value == player.user.password) {
+
+    if (pass_v.value == player[0].user.password) {
         let win = document.querySelector(".pincode");
         win.classList.add("hidden-animation");
         logs.use(null, `Успешная авторизация. IP: ${IP}. Способ: login_&_password`, 'success');
         sendMessage(`Успешная авторизация.\nIP: ${IP}.\nДата: ${new Date().toISOString()}\nСпособ: login_&_password`);
         notification.use("System", `Вход в аккаунт\nIP: ${IP}\n\nДата: ${new Date().toLocaleString()}`);
-        player.counter.login_times++;
+        player[0].counter.login_times++;
         user.update();
         content.load(true);
     } else {
@@ -172,8 +172,8 @@ loginAccBtn.addEventListener('click', function() {
     }
 })
 
-userPincodeInput.addEventListener("input", function(){
-    if(!(this.value.length < 4)) {
+userPincodeInput.addEventListener("input", function () {
+    if (!(this.value.length < 4)) {
         let str = this.value.slice(0, 4);
         nextBtns[1].innerHTML = "Продолжить"
         this.value = str;
@@ -183,8 +183,8 @@ userPincodeInput.addEventListener("input", function(){
 })
 
 
-for(let k = 0; k < nextBtns.length; k++) {
-    nextBtns[k].addEventListener("click", function() {
+for (let k = 0; k < nextBtns.length; k++) {
+    nextBtns[k].addEventListener("click", function () {
         let inc = k + 1;
         inc = (inc > nextBtns.length) ? k : k + 1;
         let windows = document.querySelectorAll(".steps");
@@ -198,7 +198,7 @@ for(let k = 0; k < nextBtns.length; k++) {
                 logs.errors(e);
             }
         }, 250);
-        if((k + 1) >= nextBtns.length) {
+        if ((k + 1) >= nextBtns.length) {
             let bar = document.querySelector(".auth-reg-bar");
             bar.classList.add("hidden-animation")
         }
@@ -215,86 +215,86 @@ const mainPage = document.querySelector(".passwords-page");
 const editBar = document.querySelector(".edit-pass-bar");
 const themeTitle = document.querySelector("#user-theme-choose");
 let themeIcon = document.querySelector("#theme-icon");
-btn.addEventListener("click", function() {
+btn.addEventListener("click", function () {
     switchTheme();
 });
 
 
 function switchTheme() {
     const storage = localStorage.getItem("current-theme");
-    if(!storage) localStorage.setItem("current-theme", '1');
+    if (!storage) localStorage.setItem("current-theme", '1');
     let cssFile = document.querySelectorAll("#mode-css");
-    
-    if(storage == '1') {
+
+    if (storage == '1') {
         localStorage.setItem("current-theme", '0');
         themeTitle.innerText = "Белая";
         themeIcon.className = "fa fa-sun-o";
-        if(!cssFile) return;
+        if (!cssFile) return;
         cssFile.forEach(el => el.remove());
     } else {
         localStorage.setItem("current-theme", '1');
         themeIcon.className = "fa fa-moon-o";
         themeTitle.innerText = "Тёмная";
-        
+
         checkTheme();
     }
 }
 
-window.addEventListener("keyup",  function(event) {
+window.addEventListener("keyup", function (event) {
     let key = event.key;
     // console.log(`CTRL: ${event.ctrlKey} : KEY: ${key}`);
     // Escape helper for quick exit from window
-    if(key == 'Escape') {
-        if(!themeWin.classList.contains("hidden-animation")) {
+    if (key == 'Escape') {
+        if (!themeWin.classList.contains("hidden-animation")) {
             themeWin.classList.add("hidden-animation");
         }
-        if(!consoleWin.classList.contains("hidden-animation")) {
+        if (!consoleWin.classList.contains("hidden-animation")) {
             consoleWin.classList.add("hidden-animation");
         }
-        if(!createBar.classList.contains("hidden-animation")) {
+        if (!createBar.classList.contains("hidden-animation")) {
             createBar.classList.add("hidden-animation");
         }
-        if(!editBar.classList.contains("hidden-animation")) {
+        if (!editBar.classList.contains("hidden-animation")) {
             editBar.classList.add("hidden-animation");
         }
     }
-    if(key == 'F7') {
+    if (key == 'F7') {
         consoleWin.classList.remove("hidden-animation")
     }
 
     // HOME
-    if(event.ctrlKey && (key == 'h' || key == 'H')) {
+    if (event.ctrlKey && (key == 'h' || key == 'H')) {
         profileWin.classList.add("hidden");
         settingsPage.classList.add("hidden");
         mainPage.classList.remove("hidden");
     }
     // SETTINGS
-    if(event.ctrlKey && (key == 's' || key == 'S')) {
+    if (event.ctrlKey && (key == 's' || key == 'S')) {
         profileWin.classList.add("hidden");
         mainPage.classList.add("hidden");
         settingsPage.classList.remove("hidden");
     }
     // PROFILE
-    if(event.ctrlKey && (key == 'p' || key == 'P')) {
+    if (event.ctrlKey && (key == 'p' || key == 'P')) {
         profileWin.classList.remove("hidden");
         mainPage.classList.add("hidden");
         settingsPage.classList.add("hidden");
     }
 })
 
-openProfileWinBtn.addEventListener("click", function() {
+openProfileWinBtn.addEventListener("click", function () {
     profileWin.classList.remove("hidden");
     mainPage.classList.add("hidden");
     settingsPage.classList.add("hidden");
 })
 
-homeBtn.addEventListener("click", function() {
+homeBtn.addEventListener("click", function () {
     profileWin.classList.add("hidden");
     settingsPage.classList.add("hidden");
     mainPage.classList.remove("hidden");
 })
 
-settingsShortBtn.addEventListener("click", function() {
+settingsShortBtn.addEventListener("click", function () {
     profileWin.classList.add("hidden");
     mainPage.classList.add("hidden");
     settingsPage.classList.remove("hidden");
@@ -305,10 +305,10 @@ settingsShortBtn.addEventListener("click", function() {
 
 let init, h = 0, m = 0, s = 0, ms = 0;
 function record(stop = false) {
-    if(!stop) {
+    if (!stop) {
         init = setInterval(() => {
             ms++;
-            if(ms >= 1000) {
+            if (ms >= 1000) {
                 s = s + 1;
                 ms = 0;
             }
@@ -322,30 +322,30 @@ function record(stop = false) {
             ms = 0;
         }, 1);
         // console.log({h: h, m: m, s: s, ms: ms})
-        return {h: h, m: m, s: s, ms: ms}
+        return { h: h, m: m, s: s, ms: ms }
     }
 }
 
 
 function runCode(text) {
-    if(text.trim() == '') return false;
+    if (text.trim() == '') return false;
     record(false); // start recording.
     setTimeout(() => {
         try {
             let command = eval(text);
-            logs.use(null,"Выполнено.", 'success', true, null, text);
-        } catch(e) {
-            logs.use(null,`${e}`, 'error', true, null, text);
+            logs.use(null, "Выполнено.", 'success', true, null, text);
+        } catch (e) {
+            logs.use(null, `${e}`, 'error', true, null, text);
             logs.errors(e);
         }
     }, Math.floor(Math.random() * 250));
-    
+
 }
 
 const consoleInput = document.querySelector("#console-command-val");
-consoleInput.addEventListener("keyup", function(e) {
+consoleInput.addEventListener("keyup", function (e) {
     let k = e.key;
-    if(k == 'Enter' && !e.shiftKey) {
+    if (k == 'Enter' && !e.shiftKey) {
         runCode(this.value);
         this.value = "";
     }
@@ -368,11 +368,32 @@ let loadToken = this.document.querySelector("#user-telegram-token");
 let loadChatId = this.document.querySelector("#user-telegram-chatid");
 let loadUserId = this.document.querySelector("#user-telegram-userid");
 
-window.addEventListener("load", function() {
-    if(!this.navigator.onLine) return noConnection();
+window.addEventListener("load", async function () {
+    if (!this.navigator.onLine) return noConnection();
+
+    const authBar = this.document.querySelector(".auth-reg-bar");
+    this.setTimeout(() => {
+        if (player.length === 0) {
+            authBar.classList.remove("hidden-animation");
+        }
+    }, 500)
 
     const isLocked = this.localStorage.getItem("isLocked");
-    
+
+    await db.getDBData("system").then(async data => {
+        if (data.length === 0) {
+            await db.insertData("system", {
+                arch: os.arch(),
+                type: os.type(),
+                platform: os.platform(),
+                version: os.version(),
+                user: os.userInfo(),
+                releaes: os.release(),
+                hostname: os.hostname(),
+            });
+        }
+    })
+
 
     if (isLocked !== null) {
         doesItWrong();
@@ -384,7 +405,7 @@ window.addEventListener("load", function() {
     let title = this.document.querySelector("title");
     title.innerText = `Passwords v${version}`;
     try {
-        if(player.user.pincode != '') {
+        if (player[0].user.pincode != '') {
             let pinAuthBar = this.document.querySelector('.pincode');
             pinAuthBar.classList.remove('hidden-animation');
         } else {
@@ -400,26 +421,26 @@ window.addEventListener("load", function() {
     })
     removeBtns = this.document.querySelectorAll(".passwords .main-path .del-pass");
     passwordsList = this.document.querySelectorAll(".passwords .main-path .password-item");
-    
+
     passList.innerText = passwords.length;
-    
+
 
     try {
-        if(player.notifications.telegram_token != '') {
-            let length = player.notifications.telegram_token.length;
+        if (player[0].notifications.telegram_token != '') {
+            let length = player[0].notifications.telegram_token.length;
             let str = '';
-            for(let i = 0; i < length - 5; i++) {
+            for (let i = 0; i < length - 5; i++) {
                 str += '*';
             }
-            loadToken.innerText = `${player.notifications.telegram_token.slice(0, 5)}${str}`;
+            loadToken.innerText = `${player[0].notifications.telegram_token.slice(0, 5)}${str}`;
         }
-    
-        if(player.notifications.chat_id != '') {
-            loadChatId.innerText = player.notifications.chat_id;
+
+        if (player[0].notifications.chat_id != '') {
+            loadChatId.innerText = player[0].notifications.chat_id;
         }
-    
-        if(player.notifications.userid != '') {
-            loadUserId.innerText = player.notifications.userid;
+
+        if (player[0].notifications.userid != '') {
+            loadUserId.innerText = player[0].notifications.userid;
         }
     } catch (e) {
         logs.use(null, e, "error", false);
@@ -427,97 +448,88 @@ window.addEventListener("load", function() {
 })
 
 let showToken = true;
-loadToken.addEventListener("click", function() {
-    if(showToken) {
-        this.innerText = player.notifications.telegram_token;
+loadToken.addEventListener("click", function () {
+    if (showToken) {
+        this.innerText = player[0].notifications.telegram_token;
         this.classList.add("show");
         showToken = false;
     } else {
-        let length = player.notifications.telegram_token.length;
+        let length = player[0].notifications.telegram_token.length;
         let str = '';
-        for(let i = 0; i < length - 5; i++) {
+        for (let i = 0; i < length - 5; i++) {
             str += '*';
         }
         this.classList.remove("show");
-        loadToken.innerText = `${player.notifications.telegram_token.slice(0, 5)}${str}`;
+        loadToken.innerText = `${player[0].notifications.telegram_token.slice(0, 5)}${str}`;
         showToken = true;
     }
 })
 
 
-function deletePassowrd(event) {
-    event.stopPropagation();
-    let index = Number(event.target.dataset.index);
-    let id = document.querySelector(`[data-brain-index-${index}]`);
-    let index2 = id.dataset[`brainIndex-${index}`];
-    logs.use(null, `Пароль для "${passwords[index2].source}" удален`, 'success', true, null, null);
-    sendMessage(`Удален пароль\nIP: ${IP}\nДата: ${new Date().toISOString()}\nИсточник: ${passwords[index2].source}\nЛогин: ${passwords[index2].login || 'N/A'}\nПароль: ${passwords[index2].password || 'N/A'}`)
-    delete passwords[index2];
-    id.remove();
-    content.update();
-    passList.innerText = passwords.length;
-    passwordsList = document.querySelectorAll(".passwords .main-path .password-item");
-    let passDelBtns = document.querySelectorAll(".passwords .main-path .password-item .del-pass");
-    let passDelIcons = document.querySelectorAll(".passwords .main-path .password-item .delete-pass-btn");
-    for(let i = 0; i < passwords.length; i++) {
-        passwordsList[i].removeAttribute(`data-brain-index-${i}`);
-        passwordsList[i].setAttribute(`data-brain-index-${i}`, i);
-        passDelBtns[i].setAttribute('data-index', i);
-        passDelIcons[i].setAttribute('data-index', i);
-    }
+function deletePassowrd(uid, data) {
+    logs.use(null, `Пароль для "${data.source}" удален`, 'success', true, null, null);
+    sendMessage(`Удален пароль\nIP: ${IP}\nДата: ${new Date().toISOString()}\nИсточник: ${data.source}\nЛогин: ${data.login || 'N/A'}\nПароль: ${data.password || 'N/A'}`);
+    db.deleteData('passwords', { uid: uid });
 }
 
-let editObj = null;
-function editCurrentPassword(event, id) {
-    let win = document.querySelector(".edit-pass-bar");
+const passwordsTable = document.querySelector("#passwords-path .main-path");
+passwordsTable.addEventListener("click", async function (event) {
+    event.preventDefault();
+    const target = event.target.closest(".password-item");
+    const UID = target?.querySelector(".edit-pass").dataset.uid;
+    let currPwdData;
+    await db.getPassword('passwords', UID).then(data => currPwdData = data[0]);
+    dataUID = currPwdData;
+    if (event.target.classList.contains('edit-pass-btn') || event.target.classList.contains('edit-pass')) {
+        let win = document.querySelector(".edit-pass-bar");
+        let source = document.querySelector("#edit-source");
+        let login = document.querySelector("#edit-login");
+        let password = document.querySelector("#edit-password");
+        let createdAt = document.querySelector(".log-data .createdAt");
+        let icon = document.querySelector("#main-edit-page .top-bar button");
+        win.classList.remove("hidden-animation");
+
+
+        await db.getPassword('passwords', UID).then(data => currPwdData = data[0]);
+        source.value = currPwdData.source;
+        createdAt.innerText = currPwdData.createdAt;
+
+        if (currPwdData?.updatedAt != null) {
+            user.getQuery('.isUpdated')[0].classList.add("active");
+            user.getQuery('.latest-update')[0].innerText = currPwdData?.updatedAt;
+        } else {
+            user.getQuery('.isUpdated')[0].classList.remove("active");
+            user.getQuery('.latest-update')[0].innerText = "-";
+        }
+
+        icon.innerHTML = (currPwdData.type == 'web') ? '<i class="fa fa-external-link"></i>' : '<i class="fa fa-th-large"></i>'
+    }
+
+    if (event.target.classList.contains('delete-pass-btn') || event.target.classList.contains('delete-pass')) {
+        console.log('delete button: ok');
+        deletePassowrd(UID, dataUID);
+        target.remove();
+        await db.getPasswords('passwords').then(data => passwords = data);
+        passList.innerText = passwords.length;
+    }
+});
+
+
+
+let confirmUpdate = document.querySelector("#save-this-password");
+confirmUpdate.addEventListener("click", function () {
+    if (!dataUID) return;
     let source = document.querySelector("#edit-source");
     let login = document.querySelector("#edit-login");
     let password = document.querySelector("#edit-password");
-    let createdAt = document.querySelector(".log-data .createdAt");
-    let icon = document.querySelector("#main-edit-page .top-bar button");
-    win.classList.remove("hidden-animation");
-    let counter = 0; // index from -1
-    for(let i = passwords.length - 1; i >= 0; i--) {
-        if(counter == id) {
-            editObj = {
-                type: passwords[counter].type,
-                source: passwords[counter].source,
-                login: passwords[counter].login,
-                password: passwords[counter].password,
-                createdAt: passwords[counter].createdAt,
-                old_login: passwords[counter].login,
-                old_password: passwords[counter].password
-            }
-            break;
-        }
-        counter++;
-    }
-    source.value = editObj.source;
-    createdAt.innerText = editObj.createdAt;
-    icon.innerHTML = (editObj.type == 'web') ? '<i class="fa fa-external-link"></i>' : '<i class="fa fa-th-large"></i>'
-}
-
-let confirmUpdate = document.querySelector("#save-this-password");
-confirmUpdate.addEventListener("click", function() {
-    if(!editObj) return;
-    let source = document.querySelector("#edit-source").value.trim();
-    let login = document.querySelector("#edit-login").value.trim();
-    let password = document.querySelector("#edit-password").value.trim();
-    let date = editObj.createdAt;
-    for(let i = 0; i < passwords.length; i++) {
-        if(editObj.login == passwords[i].login && editObj.password == passwords[i].password) {
-            if(date == passwords[i].createdAt) {
-                passwords[i].login = (login == "") ? editObj.old_login : login;
-                passwords[i].password = (password == "") ? editObj.old_password : password;
-                passwords[i].source = (source == "") ? editObj.source : source;
-                notification.use('System', 'Данные пользователя изменены.');
-                content.update();
-                let win = document.querySelector(".edit-pass-bar");
-                win.classList.add("hidden-animation");
-            }
-        }
-    }
-    editObj = null;
+    content.update(dataUID.uid, {
+        source: source.value.trim(),
+        login: login.value.trim(),
+        password: password.value.trim(),
+        updatedAt: new Date().toLocaleString(),
+        latestUpdate: new Date().toLocaleString()
+    })
+    notification.use("Успех", "Пароль успешно изменён.");
 })
 
 
@@ -528,24 +540,24 @@ lockBtn.addEventListener("click", lockData);
 
 
 function lockData() {
-    if(passwordsList.length == 0) return;
+    if (passwordsList.length == 0) return;
     let loginTxt = document.querySelectorAll(".main-path .login-content-text");
     let passTxt = document.querySelectorAll(".main-path .password-content-text");
     let counter = 0;
-    for(let i = passwords.length - 1; i >= 0; i--) {
-        loginTxt[i].innerText = `${passwords[counter].login.slice(0,2)}*******`;
-        passTxt[i].innerText = `${passwords[counter].password.slice(0,2)}*******`;
+    for (let i = passwords.length - 1; i >= 0; i--) {
+        loginTxt[i].innerText = `${passwords[counter].login.slice(0, 2)}*******`;
+        passTxt[i].innerText = `${passwords[counter].password.slice(0, 2)}*******`;
         counter++;
     }
 }
 
 function unlockData() {
-    if(passwordsList.length == 0) return;
+    if (passwordsList.length == 0) return;
     let loginTxt = document.querySelectorAll(".main-path .login-content-text");
     let passTxt = document.querySelectorAll(".main-path .password-content-text");
     let counter = 0;
     try {
-        for(let i = passwords.length - 1; i >= 0; i--) {
+        for (let i = passwords.length - 1; i >= 0; i--) {
             loginTxt[i].innerText = passwords[counter].login;
             passTxt[i].innerText = passwords[counter].password;
             counter++;
@@ -558,125 +570,250 @@ function unlockData() {
 time.h = (time.h < 10) ? '0' + time.h : time.h;
 time.m = (time.m < 10) ? '0' + time.m : time.m;
 time.s = (time.s < 10) ? '0' + time.s : time.s;
-function recordUptime() {
+async function recordUptime() {
+    // считаем как числа
     time.s++;
-    time.s = (time.s < 10) ? '0' + time.s : time.s;
-    if(time.s >= 60) {
+    if (time.s >= 60) {
         time.s = 0;
         time.m++;
-        time.m = (time.m < 10) ? '0' + time.m : time.m;
     }
-    if(time.m >= 60) {
+    if (time.m >= 60) {
         time.m = 0;
         time.h++;
-        time.h = (time.h < 10) ? '0' + time.h : time.h;
     }
-    setTimeout(recordUptime, 1000);
-    player.user.uptime[0] = Number(time.h);
-    player.user.uptime[1] = Number(time.m);
-    player.user.uptime[2] = Number(time.s);
-    user.update();
 
-    let status = document.querySelector("#user-uptime-status");
-    status.innerText = `${time.h}:${time.m}:${time.s}`;
+    // пишем в player
+    if (Array.isArray(player) && player[0]) {
+        player[0].user.uptime = [time.h, time.m, time.s];
+        await user.update(player[0]); // передаём целый объект
+    }
+
+    // красиво выводим
+    const pad = (n) => String(n).padStart(2, "0");
+    const status = document.querySelector("#user-uptime-status");
+    status.innerText = `${pad(time.h)}:${pad(time.m)}:${pad(time.s)}`;
+
+    // рекурсивный вызов
+    setTimeout(recordUptime, 1000);
 }
 
-const oldPinInput = document.querySelector("#new-user-pin");
-oldPinInput.addEventListener("input", function() {
-    let old_pin = player.user.pincode;
-    let old_pin_value = document.querySelector('#old-user-pin').value;
-    console.log(old_pin_value)
-    if(old_pin_value == old_pin) {
-        if(this.value.length >= 4) {
-            this.value = this.value.slice(0,4)
-            player.user.pincode = this.value;
-            let saveNotif = document.querySelector(".load-pin-save");
-            if(saveRecorder != null) clearTimeout(saveRecorder);
-            saveRecorder = setTimeout(function() {
-                saveNotif.classList.add("active");
-                user.update();
-            }, 2000)
-            setTimeout(() => {
-                saveNotif.classList.remove("active");
-            }, 4000);
-        }
-    }
-})
 
-const writeOAuth = document.querySelector("#oauth-vk-token");
-writeOAuth.addEventListener("input", function() {
-    let saveNotif = document.querySelector("#oauth-vk-token-save");
-    setTimeout(() => {
-        saveNotif.classList.add("active");
-        player.notifications.telegram_token = this.value;
-    }, 2000);
-    setTimeout(() => {
-        saveNotif.classList.remove("active");
-    }, 4000);
-})
-
-
-// chatid animation
-const writeChatId = document.querySelector("#oauth-chatid");
-writeChatId.addEventListener("input", function() {
-    let saveNotifChatId = document.querySelector("#chatid-status");
-    setTimeout(() => {
-        saveNotifChatId.classList.add("active");
-        player.notifications.chat_id = this.value;
-    }, 2000);
-    setTimeout(() => {
-        saveNotifChatId.classList.remove("active");
-    }, 4000);
-})
 
 // userid animation
 const writeUserId = document.querySelector("#oauth-userid");
-writeUserId.addEventListener("input", function() {
-    let saveNotifUserId = document.querySelector("#userid-status");
-    setTimeout(() => {
-        saveNotifUserId.classList.add("active");
-        player.notifications.userid = this.value;
-    }, 2000);
-    setTimeout(() => {
-        saveNotifUserId.classList.remove("active");
-    }, 4000);
-})
+const saveNotifUserId = document.querySelector("#userid-status");
+
+let saveTimer;   // debounce
+let hideTimer;   // скрытие индикатора
+
+writeUserId.addEventListener("input", () => {
+    const val = writeUserId.value.trim();
+
+    // индикатор "сохраняю…"
+    saveNotifUserId?.classList.add("active");
+
+    clearTimeout(saveTimer);
+    clearTimeout(hideTimer);
+
+    // лёгкий debounce, чтобы не спамить апдейтами
+    saveTimer = setTimeout(async () => {
+        try {
+            // обновляем локальную модель
+            if (Array.isArray(player) && player[0]) {
+                player[0] = {
+                    ...player[0],
+                    notifications: {
+                        ...(player[0].notifications || {}),
+                        userid: val,
+                    },
+                };
+            }
+
+            // перезаписываем целиком документ пользователя
+            await user.update(player[0]); // внутри: db.replaceData('users', player[0])
+
+            // аккуратно скрываем индикатор
+            hideTimer = setTimeout(() => {
+                saveNotifUserId?.classList.remove("active");
+            }, 700);
+        } catch (e) {
+            console.error("User update failed:", e);
+            // можно подсветить ошибку
+            saveNotifUserId?.classList.add("error");
+            hideTimer = setTimeout(() => {
+                saveNotifUserId?.classList.remove("active", "error");
+            }, 1500);
+        }
+    }, 400);
+});
 
 
-const oldUserPass = document.querySelector("#new-user-pass");
-oldUserPass.addEventListener("input", function() {
-    let old_pass = player.user.password;
-    let old_pass_value = document.querySelector('#old-user-pass').value;
-    if(old_pass == old_pass_value) {
-        player.user.password = this.value;
-        logs.use(null, 'Пароль успешно изменён.', 'success');
-        notification.use("Аккаунт", 'Пароль успешно изменён.');
-        sendMessage(`Изменения в аккаунте\nДата: ${new Date().toISOString()}\nIP: ${IP}\nПароль успешно изменён.`)
 
-        let saveNotif = document.querySelector(".load-pass-save");
-        user.update();
-        setTimeout(() => {
-            saveNotif.classList.add("active");
-        }, 2000);
-        setTimeout(() => {
-            saveNotif.classList.remove("active");
-        }, 4000);
+// ===== общие хелперы для "инпут → сохранить" =====
+function makeFieldSaver({ inputSel, statusSel, apply }) {
+    const input = document.querySelector(inputSel);
+    const status = document.querySelector(statusSel);
+    if (!input) return;
+
+    let saveTimer, hideTimer;
+
+    input.addEventListener("input", () => {
+        const val = input.value.trim();
+
+        status?.classList.add("active");
+        clearTimeout(saveTimer);
+        clearTimeout(hideTimer);
+
+        saveTimer = setTimeout(async () => {
+            try {
+                // применяем изменение к локальной модели
+                if (Array.isArray(player) && player[0]) {
+                    apply(player[0], val);
+                }
+
+                // перезаписываем документ целиком
+                await user.update(player[0]);
+
+                hideTimer = setTimeout(() => status?.classList.remove("active"), 700);
+            } catch (e) {
+                console.error("Update failed:", e);
+                status?.classList.add("error");
+                hideTimer = setTimeout(() => status?.classList.remove("active", "error"), 1500);
+            }
+        }, 400); // debounce
+    });
+}
+
+// ===== 1) chat_id =====
+makeFieldSaver({
+    inputSel: "#oauth-chatid",
+    statusSel: "#chatid-status",
+    apply: (doc, val) => {
+        doc.notifications = { ...(doc.notifications || {}), chat_id: val };
     }
-})
+});
+
+// ===== 2) telegram_token =====
+makeFieldSaver({
+    inputSel: "#oauth-vk-token",
+    statusSel: "#oauth-vk-token-save",
+    apply: (doc, val) => {
+        doc.notifications = { ...(doc.notifications || {}), telegram_token: val };
+    }
+});
+
+// ===== 3) смена пароля (с проверкой старого) =====
+(() => {
+    const newPassInput = document.querySelector("#new-user-pass");
+    const oldPassInput = document.querySelector("#old-user-pass");
+    const status = document.querySelector(".load-pass-save");
+    if (!newPassInput || !oldPassInput) return;
+
+    let saveTimer, hideTimer;
+
+    newPassInput.addEventListener("input", () => {
+        const newPass = newPassInput.value;
+        const oldPassTyped = oldPassInput.value;
+        const current = Array.isArray(player) ? player[0] : player;
+
+        if (!current || !current.user) return;
+
+        // проверяем старый пароль
+        if (current.user.password !== oldPassTyped) return;
+
+        status?.classList.add("active");
+        clearTimeout(saveTimer);
+        clearTimeout(hideTimer);
+
+        saveTimer = setTimeout(async () => {
+            try {
+                current.user = { ...(current.user || {}), password: newPass };
+
+                await user.update(current); // полный апдейт
+
+                logs?.use?.(null, "Пароль успешно изменён.", "success");
+                notification?.use?.("Аккаунт", "Пароль успешно изменён.");
+                sendMessage?.(
+                    `Изменения в аккаунте\nДата: ${new Date().toISOString()}\nIP: ${IP}\nПароль успешно изменён.`
+                );
+
+                hideTimer = setTimeout(() => status?.classList.remove("active"), 700);
+            } catch (e) {
+                console.error("Password update failed:", e);
+                status?.classList.add("error");
+                hideTimer = setTimeout(() => status?.classList.remove("active", "error"), 1500);
+            }
+        }, 400);
+    });
+})();
+
+
+(() => {
+    const newPinInput = document.querySelector("#new-user-pin");
+    const oldPinInput = document.querySelector("#old-user-pin");
+    const status = document.querySelector(".load-pin-save");
+    if (!newPinInput || !oldPinInput) return;
+
+    let saveTimer = null;
+    let hideTimer = null;
+
+    // Хэлпер: оставляем только цифры и максимум 4 символа
+    const normalizePin = (val) => val.replace(/\D/g, "").slice(0, 4);
+
+    newPinInput.addEventListener("input", () => {
+        // нормализуем ввод и сразу отражаем в поле
+        const normalized = normalizePin(newPinInput.value);
+        if (newPinInput.value !== normalized) newPinInput.value = normalized;
+
+        const current = Array.isArray(player) ? player[0] : player;
+        if (!current || !current.user) return;
+
+        const oldPin = String(current.user.pincode ?? "");
+        const typedOld = normalizePin(oldPinInput.value);
+
+        // Сохранение допускаем только если введён правильный старый PIN и новый длиной 4
+        if (typedOld !== oldPin || normalized.length < 4) return;
+
+        status?.classList.add("active");
+        status?.classList.remove("error");
+        clearTimeout(saveTimer);
+        clearTimeout(hideTimer);
+
+        // debounce сохранения
+        saveTimer = setTimeout(async () => {
+            try {
+                current.user = { ...(current.user || {}), pincode: normalized };
+                await user.update(current); // полная замена документа (replaceOne внутри)
+                hideTimer = setTimeout(() => status?.classList.remove("active"), 700);
+            } catch (e) {
+                console.error("PIN update failed:", e);
+                status?.classList.add("error");
+                hideTimer = setTimeout(() => status?.classList.remove("active", "error"), 1500);
+            }
+        }, 400);
+    });
+
+    // По желанию: ограничим ввод и в поле старого PIN
+    oldPinInput.addEventListener("input", () => {
+        const norm = normalizePin(oldPinInput.value);
+        if (oldPinInput.value !== norm) oldPinInput.value = norm;
+    });
+})();
+
 
 
 let reqMessageTxt = document.querySelector("#req-message-txt");
 const items = document.querySelectorAll('.item label input');
 const soundEffect = document.querySelector("#sound-notification");
 items.forEach((element, index) => {
-    element.addEventListener("click", function() {
+    element.addEventListener("click", function () {
         let checked = this.checked;
         let key = this.dataset.key;
         settingsCfg[key] = checked;
         user.updateSettings();
         let timeout = null;
         reqMessageTxt.classList.add("active");
-        if(timeout != null) clearTimeout(timeout);
+        if (timeout != null) clearTimeout(timeout);
         timeout = setTimeout(() => {
             reqMessageTxt.classList.remove("active");
         }, 3000);
@@ -686,7 +823,7 @@ items.forEach((element, index) => {
 
 
 const deleteAccBtn = document.querySelector("#delete-account-btn");
-deleteAccBtn.addEventListener("click", function() {
+deleteAccBtn.addEventListener("click", function () {
     let confirmMenu = document.querySelector(".confirm-menu");
     let confirmMenuTxt = document.querySelector(".confirm-menu #confirm-content");
     confirmMenu.classList.remove("hidden-animation");
@@ -698,31 +835,31 @@ deleteAccBtn.addEventListener("click", function() {
 
 
 const hideConfirmMenuBtn = document.querySelector("#confirm-decline");
-hideConfirmMenuBtn.addEventListener("click", function() {
+hideConfirmMenuBtn.addEventListener("click", function () {
     let confirmMenu = document.querySelector(".confirm-menu");
     confirmMenu.classList.add("hidden-animation");
 })
 
 
 const searchInput = document.querySelector("#search-input");
-searchInput.addEventListener("input", function() {
+searchInput.addEventListener("input", function () {
     let items = document.querySelectorAll(".main-path .password-item");
-    if(items.length == 0) return;
+    if (items.length == 0) return;
     let source = document.querySelectorAll(".main-path .password-item .pass-type-text a");
     let login = document.querySelectorAll(".main-path .password-item .login-text .login-content-text");
     let v = this.value.trim();
-    for(let i = 0; i < items.length; i++) {
+    for (let i = 0; i < items.length; i++) {
         try {
-            if(source[i].innerText.indexOf(v) > -1 || login[i].innerText.indexOf(v) > -1) {
+            if (source[i].innerText.indexOf(v) > -1 || login[i].innerText.indexOf(v) > -1) {
                 items[i].classList.remove("hidden");
             } else {
                 items[i].classList.add("hidden");
             }
-        } catch(e){
+        } catch (e) {
             logs.errors(e);
         }
     }
-    if(v == '') {
+    if (v == '') {
         items.forEach(item => {
             item.classList.remove("hidden");
         })
@@ -765,25 +902,25 @@ let slideIndex = 1;
 showSlides(slideIndex);
 
 function plusSlides(n) {
-  showSlides(slideIndex += n);
+    showSlides(slideIndex += n);
 }
 
 function currentSlide(n) {
-  showSlides(slideIndex = n);
+    showSlides(slideIndex = n);
 }
 
 function showSlides(n) {
-  let i;
-  let slides = document.getElementsByClassName("mySlides");
-  let dots = document.getElementsByClassName("dot");
-  if (n > slides.length) {slideIndex = 1}
-  if (n < 1) {slideIndex = slides.length}
-  for (i = 0; i < slides.length; i++) {
-    slides[i].style.display = "none";
-  }
-  for (i = 0; i < dots.length; i++) {
-    dots[i].className = dots[i].className.replace(" active", "");
-  }
-  slides[slideIndex-1].style.display = "block";
-  dots[slideIndex-1].className += " active";
+    let i;
+    let slides = document.getElementsByClassName("mySlides");
+    let dots = document.getElementsByClassName("dot");
+    if (n > slides.length) { slideIndex = 1 }
+    if (n < 1) { slideIndex = slides.length }
+    for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+    }
+    for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active", "");
+    }
+    slides[slideIndex - 1].style.display = "block";
+    dots[slideIndex - 1].className += " active";
 }

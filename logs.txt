@@ -1,0 +1,9 @@
+[2024-04-12T12:49:49.881Z] Error: ETELEGRAM: 400 Bad Request: chat_id is empty
+[2024-04-12T12:51:12.970Z] Error: EEXIST: file already exists, mkdir 'C:/Users/cicada3310.ASUS-ROG-PC/Documents/passwords_data'
+[2024-04-12T12:51:15.298Z] Error: ETELEGRAM: 400 Bad Request: chat_id is empty
+[2024-04-12T13:21:52.061Z] Error: EEXIST: file already exists, mkdir 'C:/Users/cicada3310.ASUS-ROG-PC/Documents/passwords_data'
+[2024-04-12T13:21:54.927Z] Error: ETELEGRAM: 400 Bad Request: chat_id is empty
+[2024-04-13T20:13:42.673Z] Error: EEXIST: file already exists, mkdir 'C:/Users/cicada3310.ASUS-ROG-PC/Documents/passwords_data'
+[2024-04-13T20:13:45.113Z] Error: ETELEGRAM: 400 Bad Request: chat_id is empty
+[2024-04-14T10:30:56.116Z] Error: EEXIST: file already exists, mkdir 'C:/Users/cicada3310.ASUS-ROG-PC/Documents/passwords_data'
+[2024-04-14T10:30:58.823Z] Error: ETELEGRAM: 400 Bad Request: chat_id is empty
