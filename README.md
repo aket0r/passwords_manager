@@ -7,13 +7,13 @@
   <img alt="Static Badge" src="https://img.shields.io/badge/Status-beta-orange">
   <img src="https://img.shields.io/badge/License-MIT-blue.svg" />
   <img alt="Static Badge" src="https://img.shields.io/badge/MongoDB-integrated-success">
+  <img src="https://img.shields.io/badge/SCSS-29.7%25-blue">
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" />
   <img src="https://img.shields.io/badge/Electron-47848F?style=for-the-badge&logo=electron&logoColor=white" />
   <img src="https://img.shields.io/badge/MongoDB-4DB33D?style=for-the-badge&logo=mongodb&logoColor=white" />
-  <img src="https://img.shields.io/badge/SCSS-29.7%25-blue">
   <img src="https://img.shields.io/badge/CSS-264de4?style=for-the-badge&logo=css3&logoColor=white" />
 </p>
 
