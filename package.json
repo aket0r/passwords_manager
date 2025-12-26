@@ -6,7 +6,7 @@
   "scripts": {
     "start": "electron .",
     "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds",
-    "package-win": "electron-packager . Passwords Manager 3.0 --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets/icons/win/icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Passwords Manager 3.0\"",
+    "package-win": "electron-packager . Passwords Manager 3.0.5b --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets/icons/win/icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Passwords Manager 3.0\"",
     "package-linux": "electron-packager . Passwords --overwrite --asar=true --platform=linux --arch=x64 --icon=assets/icons/png/1024x1024.png --prune=true --out=release-builds"
   },
   "author": "anton",
@@ -14,11 +14,14 @@
   "dependencies": {
     "bootstrap": "^5.3.5",
     "child_process": "^1.0.2",
+    "dotenv": "^17.2.2",
     "easyvk": "^2.8.2",
     "electron": "^20.3.12",
     "express": "^4.19.2",
     "find-process": "^1.4.7",
     "fs": "^0.0.1-security",
+    "md5": "^2.3.0",
+    "mongodb": "^6.19.0",
     "node-telegram-bot-api": "^0.59.0",
     "node-vkapi": "^3.0.7",
     "os": "^0.1.2",
@@ -26,7 +29,8 @@
     "safe-regex-test": "^1.0.3",
     "swiper": "^11.2.6",
     "vk-call": "^2.2.0",
-    "vk-io": "^4.7.0"
+    "vk-io": "^4.7.0",
+    "vue": "^3.5.17"
   },
   "devDependencies": {
     "electron-packager": "^16.0.0"

@@ -6,22 +6,22 @@
 ::-webkit-scrollbar {
     width: 0;
     height: 0;
-  }
-  
-  /* Track */
-  ::-webkit-scrollbar-track {
-    background: #f1f1f1; 
-  }
-   
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: #888; 
-  }
-  
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: #555; 
-  }
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
 
 
 * {
@@ -29,6 +29,7 @@
     padding: 0;
     font-family: sans-serif;
 }
+
 body {
     transition: 0.25s;
     background-color: #e8e8e8;
@@ -40,9 +41,12 @@ body {
     flex-direction: row;
     align-content: flex-start;
 }
-.hidden, #hidden {
+
+.hidden,
+#hidden {
     display: none !important;
 }
+
 .hidden-animation {
     opacity: 0;
     visibility: hidden;
@@ -56,12 +60,14 @@ body {
     font-size: 12px;
     user-select: none;
 }
+
 .warning-text.active {
     color: limegreen;
 }
 
 
-.left, .main {
+.left,
+.main {
     width: 90%;
     float: left;
     background-color: #fff;
@@ -69,20 +75,25 @@ body {
     min-height: 100vh;
     transition: 0.25s;
 }
+
 .left {
-    margin-right: 25px;
-    width: calc(10% -  70px);
+    margin-right: 1px;
+    width: calc(10% - 125px);
 }
+
 .main {
     width: 100%;
     height: 100vh;
     min-height: 100vh;
 }
+
 .left .left-bar {
     position: relative;
     height: 100%;
     min-height: 100vh;
+    width: 100%;
 }
+
 .left .left-bar button {
     border: none;
     padding: 15px;
@@ -116,20 +127,24 @@ body {
     padding: 5px 10px;
     cursor: pointer;
 }
-.theme-bar label  input  {
+
+.theme-bar label input {
     display: none;
 }
+
 .theme-bar h2 {
     text-align: center;
     font-size: 14px;
     margin-bottom: 15px;
     font-weight: 100;
 }
+
 .theme-bar label strong {
     font-weight: 100;
     position: relative;
     margin-left: 15px;
 }
+
 .theme-bar label strong::after {
     content: '';
     display: block;
@@ -141,6 +156,7 @@ body {
     transform: translateY(-50%);
     border-radius: 50%;
 }
+
 .theme-bar label strong::before {
     transition: 0.25s;
     content: '';
@@ -155,9 +171,10 @@ body {
     border-radius: 50%;
     z-index: 1;
 }
-.theme-bar label input:checked ~ strong::before {
+
+.theme-bar label input:checked~strong::before {
     background-color: #353647;
-} 
+}
 
 .left .left-bar button i {
     font-size: 30px;
@@ -175,6 +192,7 @@ body {
     border-bottom: 1px solid #ddd;
     transition: 0.25s;
 }
+
 .left .left-bar button:last-child {
     border-bottom: none;
     border-top: 1px solid #ddd;
@@ -186,9 +204,11 @@ body {
     width: 100%;
     bottom: 0;
 }
+
 .main .buttons {
     padding: 15px;
 }
+
 .main .buttons button,
 .main .buttons input {
     display: inline-block;
@@ -201,26 +221,31 @@ body {
     font-size: 20px;
     transition: 0.25s;
 }
+
 .main .buttons input::placeholder {
     color: royalblue;
     opacity: 0.7;
     transition: 0.25s;
 }
+
 .main .buttons input {
     outline: none;
     cursor: text;
     float: right;
 }
+
 .main .buttons button {
     background-color: royalblue;
     color: white;
     transition: 0.05s;
     transition: 0.25s;
 }
+
 .main .buttons button:active {
     background-color: #fff;
     color: royalblue;
 }
+
 .main .content-in h1 {
     font-weight: 100;
     font-size: 18px;
@@ -230,6 +255,7 @@ body {
     position: relative;
     transition: 0.25s;
 }
+
 .main .content-in h1 strong {
     position: relative;
     color: royalblue;
@@ -246,12 +272,14 @@ body {
     box-shadow: none;
     border: none;
 }
+
 .main .passwords {
     margin-top: 25px;
 }
+
 .main .passwords,
 .main .passwords #passwords-path,
-.main .passwords #passwords-path .title  {
+.main .passwords #passwords-path .title {
     display: block;
     width: 100%;
 }
@@ -271,13 +299,16 @@ body {
     flex-direction: row;
     transition: 0.25s;
 }
+
 .main .passwords #passwords-path .title .password-item div:active {
     background-color: #ddd;
 }
+
 .main .passwords #passwords-path .title .password-item div {
     user-select: none;
     cursor: pointer;
 }
+
 .main .passwords #passwords-path .title .password-item div,
 .main .passwords #passwords-path .main-path .password-item div {
     padding: 15px;
@@ -298,6 +329,7 @@ body {
     color: rgb(111, 197, 111);
     text-decoration: none;
 }
+
 .main .passwords #passwords-path .main-path .password-item div {
     border-top: none;
     overflow-x: scroll;
@@ -308,18 +340,18 @@ body {
 .main .passwords #passwords-path .main-path .password-item  div{
     border-top: 1px solid #eee;
 } */
-.main .passwords #passwords-path .main-path .password-item  div{
+.main .passwords #passwords-path .main-path .password-item div {
     border-bottom: 1px solid #ddd;
 }
 
 .main .passwords #passwords-path .main-path .password-item div.edit-pass {
     cursor: pointer;
-    color: royalblue !important ;
+    color: royalblue !important;
 }
 
 .main .passwords #passwords-path .main-path .password-item div.del-pass {
     cursor: pointer;
-    color: crimson !important ;
+    color: crimson !important;
 }
 
 .main .passwords #passwords-path .main-path .password-item div.edit-pass:active,
@@ -346,7 +378,7 @@ body {
 
 .edit-pass-bar #main-edit-page {
     width: 40%;
-    height: 65%;
+    height: 68%;
     background-color: #fff;
     border-radius: 25px;
     overflow: hidden;
@@ -361,6 +393,7 @@ body {
     flex-direction: row;
     border-bottom: 1px solid #ddd;
 }
+
 .edit-pass-bar #main-edit-page .top-bar div {
     display: flex;
     width: auto;
@@ -368,6 +401,7 @@ body {
     margin: 0;
     height: 60px;
 }
+
 .edit-pass-bar #main-edit-page .top-bar .center-title {
     width: 70%;
     height: auto;
@@ -390,6 +424,7 @@ body {
     background-color: transparent;
     transition: 0.25s;
 }
+
 .edit-pass-bar #main-edit-page .top-bar button {
     background-color: #eee;
 }
@@ -405,13 +440,16 @@ body {
     display: flex;
     align-items: center;
 }
+
 .edit-pass-bar #main-edit-page .last-inputs ul {
-    width:  calc(100% - 15px * 4);
+    width: calc(100% - 15px * 4);
 }
+
 .edit-pass-bar #main-edit-page .last-inputs ul li {
     margin: 20px 0;
     list-style-type: none;
 }
+
 .edit-pass-bar #main-edit-page .last-inputs ul li span {
     margin-bottom: 5px;
     opacity: 1;
@@ -420,6 +458,7 @@ body {
     display: block;
     margin-left: 2px;
 }
+
 .edit-pass-bar #main-edit-page .last-inputs ul li input {
     padding: 15px;
     border-radius: 4px;
@@ -440,16 +479,32 @@ body {
     top: 15%;
     padding: 0 20px;
 }
-.edit-pass-bar #main-edit-page .log-data  p {
+
+.edit-pass-bar #main-edit-page .log-data p {
     font-size: 18px;
     position: relative;
+    margin: 5px 0;
 }
-.edit-pass-bar #main-edit-page .log-data  p span {
+
+.edit-pass-bar #main-edit-page .log-data p.isUpdated {
+    display: none;
+}
+
+.edit-pass-bar #main-edit-page .log-data p.isUpdated span {
+    color: #4bb34b;
+}
+
+.edit-pass-bar #main-edit-page .log-data p.isUpdated.active {
+    display: block;
+}
+
+.edit-pass-bar #main-edit-page .log-data p span {
     position: absolute;
     right: 5%;
     font-size: 20px;
     color: royalblue;
 }
+
 .edit-pass-bar #main-edit-page .delete-pass {
     padding: 15px 10px;
     background-color: #fff;
@@ -459,6 +514,7 @@ body {
     font-weight: 100;
     cursor: pointer;
 }
+
 .edit-pass-bar #main-edit-page .delete-pass strong {
     font-weight: 100;
 }
@@ -478,6 +534,7 @@ body {
     backdrop-filter: blur(2px);
     z-index: 1;
 }
+
 #create-new-pass-bar .main-content {
     display: flex;
     align-items: center;
@@ -497,6 +554,7 @@ body {
     text-align: center;
     margin-bottom: 25px;
 }
+
 #create-new-pass-bar .main-content .content input,
 #create-new-pass-bar .main-content button,
 #create-new-pass-bar .main-content .content select,
@@ -514,10 +572,12 @@ body {
     border-radius: 4px;
     transition: 0.25s;
 }
+
 #create-new-pass-bar .main-content .content input::placeholder {
     color: #444;
     opacity: 0.5;
 }
+
 #create-new-pass-bar .main-content .content select {
     cursor: pointer;
     -webkit-appearance: none;
@@ -525,6 +585,7 @@ body {
     width: 91%;
     position: relative;
 }
+
 #create-new-pass-bar .main-content .content #mark {
     position: absolute;
     right: 10%;
@@ -539,7 +600,8 @@ body {
     border-left: 2px solid #444;
     transition: 0.25s;
 }
-#create-new-pass-bar .main-content .content select:focus ~ #mark {
+
+#create-new-pass-bar .main-content .content select:focus~#mark {
     transform: translate(-50%, -30%) rotate(calc(45deg * 9));
     border-top-color: royalblue;
     border-left-color: royalblue;
@@ -553,9 +615,11 @@ body {
     cursor: pointer;
     border: none;
 }
+
 #create-new-pass-bar .main-content button:active {
     opacity: 0.9;
 }
+
 #create-new-pass-bar .main-content #close-created-bar-btn {
     position: absolute;
     right: 5px;
@@ -586,7 +650,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #ffffffb5;
+    background-color: #1c1c1cb5;
     backdrop-filter: blur(2px);
     display: flex;
     justify-content: center;
@@ -596,7 +660,7 @@ body {
 
 .auth-reg-bar .steps {
     width: 30%;
-    height: 45%;
+    height: 50%;
     padding: 15px;
     background-color: #fff;
     text-align: center;
@@ -606,16 +670,20 @@ body {
     position: relative;
     transition: 0.25s;
     border-radius: 10px;
-    box-shadow: 0 0 30rem #ddd;
-} 
+    box-shadow: 0 0 30rem #202020;
+    align-content: center;
+    flex-wrap: wrap;
+}
 
 .auth-reg-bar #step-2 {
-    height: 50%;
+    height: 60%;
 }
 
 .auth-reg-bar #step-2 .numbers {
     margin: 20px 0 !important;
+    margin-left: -40px !important;
 }
+
 .auth-reg-bar #step-3 {
     height: 90%;
     width: 90%;
@@ -631,7 +699,8 @@ body {
     width: 100%;
     height: 100%;
 }
-.auth-reg-bar #step-3 .container .tutorial ul  {
+
+.auth-reg-bar #step-3 .container .tutorial ul {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -676,6 +745,7 @@ body {
 .auth-reg-bar .steps .inputs {
     margin-top: 15%;
 }
+
 .auth-reg-bar .steps input {
     display: block;
     margin: 10px 0;
@@ -684,7 +754,7 @@ body {
     padding: 15px 25px;
     width: 100%;
     outline: none;
-    margin-left: 0;
+    margin-left: -20px;
     font-size: 17px;
 }
 
@@ -726,6 +796,7 @@ body {
     justify-content: center;
     align-items: center;
 }
+
 .main-content button {
     bottom: 25px;
     padding: 10px;
@@ -739,6 +810,7 @@ body {
     font-size: 17px;
     margin-top: 5%;
 }
+
 .main-content button:disabled {
     opacity: 0.8;
 }
@@ -756,6 +828,7 @@ body {
     justify-content: center;
     align-items: center;
 }
+
 .pincode .main-content {
     background-color: #fff;
     width: 30%;
@@ -790,10 +863,10 @@ body {
 }
 
 .auth-reg-bar .steps .numbers div,
-.pincode  .numbers div,
+.pincode .numbers div,
 .numbers-join div {
     display: inline-block;
-    padding: 15px 30px;
+    padding: 20px 30px;
     font-size: 18px;
     border: 1px solid #ddd;
     margin: 0px;
@@ -801,11 +874,13 @@ body {
     cursor: pointer;
     transition: 0.25s;
 }
-.pincode  .numbers {
+
+.pincode .numbers {
     width: 50%;
 }
+
 .auth-reg-bar .steps .numbers div:active,
-.pincode  .numbers div:active,
+.pincode .numbers div:active,
 .numbers-join div:active {
     background-color: #eee;
     transition: 0.25s;
@@ -836,6 +911,7 @@ body {
     border-top: 4px solid #ddd;
     transition: 0.25s;
 }
+
 .alert h1,
 .confirm h1 {
     font-weight: 100;
@@ -850,9 +926,11 @@ body {
 .confirm p {
     overflow-y: auto;
 }
+
 .alert.warn h1 {
     color: yellow;
 }
+
 .alert.warn {
     border-top: 4px solid orangered;
 }
@@ -860,6 +938,7 @@ body {
 .alert.error h1 {
     color: crimson;
 }
+
 .alert.error {
     border-top: 4px solid crimson;
 }
@@ -872,6 +951,7 @@ body {
     top: 5px;
     opacity: 0.5;
 }
+
 .confirm button {
     padding: 10px 15px;
     border: none;
@@ -883,15 +963,18 @@ body {
     margin-top: 20px;
     width: 25%;
 }
+
 .confirm button:last-child {
     background-color: #ddd;
     color: black;
 }
+
 .settings-page section .top-buttons h1 {
     font-weight: 100;
     font-size: 30px;
     margin-bottom: 25px;
 }
+
 .settings-page section .top-buttons #close-e-btn {
     position: absolute;
     right: 5px;
@@ -903,9 +986,11 @@ body {
     cursor: pointer;
     font-size: 20px;
 }
+
 .settings-page section .settings-buttons .item input {
     display: none;
 }
+
 .settings-page section .settings-buttons .item label {
     user-select: none;
     position: relative;
@@ -931,6 +1016,7 @@ body {
     transition: 0.25s;
     border-radius: 4px;
 }
+
 .settings-page section .settings-buttons .item label span.checkbox::before {
     content: '';
     position: absolute;
@@ -942,16 +1028,19 @@ body {
     transition: 0.25s;
     border-radius: 4px;
 }
-.settings-page section .settings-buttons .item label input:checked ~ span.checkbox::before {
+
+.settings-page section .settings-buttons .item label input:checked~span.checkbox::before {
     left: 50%;
 }
 
-.settings-page section .settings-buttons .item label input:checked ~  span.checkbox {
+.settings-page section .settings-buttons .item label input:checked~span.checkbox {
     background-color: royalblue;
 }
-.settings-page section .settings-buttons .item label input:disabled ~ span.checkbox {
+
+.settings-page section .settings-buttons .item label input:disabled~span.checkbox {
     opacity: 0.5;
 }
+
 .settings-page section button.btn {
     padding: 10px 10px;
     margin-top: 25px;
@@ -963,6 +1052,7 @@ body {
     font-size: 17px;
     border-radius: 4px;
 }
+
 .settings-page section #req-message-txt {
     color: #00cbc1;
     font-weight: 100;
@@ -971,6 +1061,7 @@ body {
     margin-left: 2px;
     opacity: 0;
 }
+
 .settings-page section #req-message-txt.active {
     opacity: 1;
 }
@@ -996,6 +1087,7 @@ body {
     justify-content: center;
     align-items: center;
 }
+
 .console #container {
     position: relative;
     background-color: #fff;
@@ -1027,27 +1119,31 @@ body {
 .console #container .title {
     margin-bottom: 25px;
 }
+
 .console #container .title h1 {
     padding: 15px;
     color: royalblue;
     display: inline-block;
 }
+
 .console #container .title h1:nth-child(2),
 .console #container .title h1:nth-child(3),
 .console #container .title h1:nth-child(4) {
     cursor: pointer;
     color: #4bb34b;
 }
+
 .console #container .title h1:nth-child(2):hover,
 .console #container .title h1:nth-child(3):hover,
 .console #container .title h1:nth-child(4):hover {
     text-decoration: underline;
-} 
+}
 
 .console #container .title h1,
 .console #container .title h1 strong {
     font-weight: 100;
 }
+
 .console #container .title h1 strong {
     position: absolute;
     user-select: none;
@@ -1072,6 +1168,7 @@ body {
     overflow-y: auto;
     transition: 0.25s;
 }
+
 .console #container .history #item-console-content {
     display: flex;
     justify-content: flex-start;
@@ -1098,6 +1195,7 @@ body {
     color: #444;
     transition: 0.25s;
 }
+
 .console #container .history #item-console-content div:last-child {
     overflow-y: auto;
     align-items: flex-start;
@@ -1109,16 +1207,19 @@ body {
 .console #container .history #item-console-content.error div:last-child {
     color: crimson;
 }
+
 .console #container .history #item-console-content.success div:last-child {
     color: limegreen;
     transition: 0.25s;
 }
+
 .console #container .write {
     background: #ddd;
     display: flex;
     padding: 0;
     width: 100%;
 }
+
 .console #container .write textarea {
     width: 100%;
     display: inline-block;
@@ -1141,6 +1242,7 @@ body {
     width: 200px;
     position: relative;
 }
+
 .console #container .write div button {
     position: absolute;
     top: 50%;
@@ -1155,15 +1257,19 @@ body {
     border-radius: 4px;
 }
 
+.profile-page {
+    height: 97vh !important;
+}
+
 .profile-page,
 .settings-page {
     transition: 0.25s;
     padding: 15px;
-    width: auto;
     min-height: auto;
     overflow-y: auto;
-    min-width: calc(100% - 5% - 31px);
+    width: 100%;
 }
+
 .profile-page h2,
 .settings-page h2 {
     font-weight: 100;
@@ -1193,12 +1299,14 @@ body {
     right: 5%;
     transition: 0.25s;
 }
+
 .profile-page .profile-content ul li strong.small {
     position: relative;
     right: 0;
     left: calc(15rem - 20px);
     color: #666;
 }
+
 .profile-page .profile-content ul li strong.small.p5 {
     left: calc(15rem - 25px);
 }
@@ -1218,21 +1326,26 @@ body {
     outline: none;
     transition: 0.25s;
 }
+
 .profile-page .profile-content ul li a {
     color: royalblue;
     text-decoration: none;
     transition: 0.25s;
 }
+
 .profile-page .profile-content ul li a:hover {
     text-decoration: underline;
 }
+
 .profile-page .profile-content ul li span {
     color: transparent;
     transition: 0.25s;
 }
+
 .profile-page .profile-content ul li span.active {
     color: rgb(0, 200, 0);
 }
+
 .profile-page .profile-content ul li button#delete-account-btn {
     padding: 5px 10px;
     border-radius: 4px;
@@ -1243,6 +1356,7 @@ body {
     outline: none;
     font-size: 16px;
 }
+
 .profile-page .profile-content ul#keyboard li strong {
     background: royalblue;
     padding: 5px 10px;
@@ -1263,13 +1377,14 @@ body {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(5px);
-    
+
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 500;
     padding: 15px;
 }
+
 .confirm-menu .container {
     width: 25%;
     height: 15%;
@@ -1286,11 +1401,13 @@ body {
     overflow-y: scroll;
     height: auto;
 }
+
 .confirm-menu .container h1 {
     font-weight: 100;
     margin-bottom: 25px;
     text-align: center;
 }
+
 .confirm-menu .container button {
     padding: 5px 10px;
     border: none;
@@ -1301,11 +1418,13 @@ body {
     margin: 0;
     border-radius: 4px;
 }
+
 .confirm-menu .container button#confirm-accept {
     background-color: royalblue;
     color: white;
     font-size: 18px;
 }
+
 .confirm-menu .container button#confirm-accept:disabled {
     opacity: 0.7;
 }
@@ -1324,6 +1443,7 @@ body {
     font-size: 45px;
     color: crimson;
 }
+
 .timer p {
     font-size: 11px;
     color: crimson;
@@ -1341,6 +1461,7 @@ body {
     text-align: center;
     box-shadow: 0 2px 4px orangered;
 }
+
 #internet-status h1 {
     font-weight: 100;
     user-select: none;
@@ -1359,20 +1480,21 @@ body {
     max-width: 1000px;
     position: relative;
     margin: auto;
-  }
-  
-  /* Hide the images by default */
-  .mySlides {
+}
+
+/* Hide the images by default */
+.mySlides {
     display: none;
-  }
-  
-  /* Next & previous buttons */
+}
 
-  .prev {
+/* Next & previous buttons */
+
+.prev {
     left: 0;
-  }
+}
 
-  .prev, .next {
+.prev,
+.next {
     cursor: pointer;
     position: absolute;
     top: 50%;
@@ -1386,21 +1508,22 @@ body {
     border-radius: 0 3px 3px 0;
     user-select: none;
     background: #0009;
-  }
-  
-  /* Position the "next button" to the right */
-  .next {
+}
+
+/* Position the "next button" to the right */
+.next {
     right: 0;
     border-radius: 3px 0 0 3px;
-  }
-  
-  /* On hover, add a black background color with a little bit see-through */
-  .prev:hover, .next:hover {
-    background-color: rgba(0,0,0,0.8);
-  }
-  
-  /* Caption text */
-  .text {
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover,
+.next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Caption text */
+.text {
     color: #f2f2f2;
     font-size: 15px;
     padding: 8px 12px;
@@ -1411,20 +1534,20 @@ body {
     backdrop-filter: blur(2px);
     left: 0;
     bottom: 95%;
-  }
-  
-  /* Number text (1/3 etc) */
-  .numbertext {
+}
+
+/* Number text (1/3 etc) */
+.numbertext {
     color: #f2f2f2;
     font-size: 12px;
     padding: 8px 12px;
     position: absolute;
     top: 5px;
     z-index: 1;
-  }
-  
-  /* The dots/bullets/indicators */
-  .dot {
+}
+
+/* The dots/bullets/indicators */
+.dot {
     cursor: pointer;
     height: 15px;
     width: 15px;
@@ -1433,19 +1556,50 @@ body {
     border-radius: 50%;
     display: inline-block;
     transition: background-color 0.6s ease;
-  }
-  
-  .mySlides .active, .dot:hover {
+}
+
+.mySlides .active,
+.dot:hover {
     background-color: #717171;
-  }
-  
-  /* Fading animation */
-  .fade {
+}
+
+/* Fading animation */
+.fade {
     animation-name: fade;
     animation-duration: 1.5s;
-  }
-  
-  @keyframes fade {
-    from {opacity: .4}
-    to {opacity: 1}
-  }
+}
+
+@keyframes fade {
+    from {
+        opacity: .4
+    }
+
+    to {
+        opacity: 1
+    }
+}
+
+/* Nice default styling for <code> (inline) and <pre><code> (blocks) */
+code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 0.95em;
+    line-height: 1.4;
+    padding: 0.15em 0.4em;
+    border-radius: 0.35em;
+    background: rgb(92 109 126 / 5%);
+    border: 1px solid rgb(76 95 114 / 12%);
+    color: #24292f;
+    white-space: break-spaces;
+    word-break: break-word;
+    color: wheat;
+}
+
+/* Code blocks */
+pre {
+  margin: 1rem 0;
+  padding: 0;
+  overflow: auto;
+  border-radius: 0.75rem;
+  background: #0b1020;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}

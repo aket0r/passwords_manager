@@ -1,86 +1,142 @@
+// ==== telegram.js ====
 const TelegramBot = require('node-telegram-bot-api');
-const token = player.notifications.telegram_token;
-const bot = new TelegramBot(token, {polling: true})
-const chat_id = player.notifications.chat_id; // Bot chat ID
-const userid = player.notifications.userid; // Your telegram ID
-async function sendMessage(message = null) {
-    if(!message) return;
-    await bot.sendMessage(chat_id, message)
-    .catch(e => {
-        logs.use(null, `${e}`, 'error');
-        notification.use('Token error', 'Ваш токен для телеграма не валиден, пожалуйста обновите его');
-        let warningTxt = document.querySelectorAll(".warning-text");
-        warningTxt.forEach(x => {
-            x.classList.remove("active")
-            x.innerText = 'Обновите токен'
+
+window.telegram = { bot: null, chatId: null, userId: null };
+
+(function initTelegramImmediate() {
+    // Ждём, пока array.js загрузит player
+    if (!window.appReady || typeof window.appReady.then !== 'function') {
+        console.error("appReady is not defined. Make sure array.js is loaded before telegram.js");
+        return;
+    }
+
+    window.appReady.then(startTelegram).catch(console.error);
+})();
+
+async function startTelegram() {
+    const p0 = Array.isArray(window.player) ? window.player[0] : null;
+    if (!p0 || !p0.notifications) {
+        console.error("player not ready or notifications missing");
+        markTokenInvalid("Данные пользователя не загружены");
+        return;
+    }
+
+    const token = p0.notifications.telegram_token || "";
+    const chatId = p0.notifications.chat_id || null;
+    const userId = p0.notifications.userid || null;
+
+    if (!token) {
+        markTokenInvalid("Токен отсутствует");
+        return;
+    }
+
+    try {
+        const bot = new TelegramBot(token, { polling: true });
+        window.telegram.bot = bot;
+        window.telegram.chatId = chatId;
+        window.telegram.userId = userId;
+
+        markTokenValid();
+
+        // ===== handlers =====
+        bot.on('message', (msg) => {
+            // Безопасные геттеры
+            const p = Array.isArray(window.player) ? window.player[0] : {};
+            const uptime = Array.isArray(p?.user?.uptime) ? p.user.uptime : [0, 0, 0];
+            const pad = (x) => (x < 10 ? '0' + x : '' + x);
+            const usrTime = { h: pad(+uptime[0] || 0), m: pad(+uptime[1] || 0), s: pad(+uptime[2] || 0) };
+
+            switch (msg.text) {
+                case '/passwords':
+                    if (window.telegram.chatId) {
+                        bot.sendDocument(window.telegram.chatId, `${m_dir}/passwords.json`).catch(handleTokenError);
+                    }
+                    break;
+
+                case '/user': {
+                    const sCfg = window.settingsCfg;
+                    const passwordsLen = Array.isArray(window.passwords) ? window.passwords.length : 0;
+                    const base =
+                        `Пользователь *${p?.user?.login || '-'}*\n\n` +
+                        `Текущий IP: *${p?.user?.ip || '-'}*\n` +
+                        `Регистрация: *${p?.user?.createdAt || '-'}*\n` +
+                        `Время в приложении: *${usrTime.h}:${usrTime.m}:${usrTime.s}*\n\n` +
+                        `Ошибок входа: ${p?.counter?.fail_access ?? 0}\n` +
+                        `Авторизаций: ${p?.counter?.login_times ?? 0}`;
+
+                    const txt = sCfg
+                        ? base.replace("Регистрация:", "Регистрация:").replace("Время", `Паролей: *${passwordsLen}*\nВремя`)
+                        : base.replace("Паролей: *авторизуйстесь*", "Паролей: *авторизуйстесь*"); // сохранён твой смысл
+
+                    if (window.telegram.chatId) {
+                        bot.sendMessage(window.telegram.chatId, txt, { parse_mode: 'Markdown' }).catch(handleTokenError);
+                    }
+                    break;
+                }
+
+                case '/logs':
+                    if (window.telegram.chatId) {
+                        bot.sendDocument(window.telegram.chatId, `${m_dir}/logs.json`).catch(handleTokenError);
+                    }
+                    break;
+
+                case '/settings': {
+                    const s = window.settingsCfg;
+                    if (!s) {
+                        bot.sendMessage(window.telegram.chatId, `Авторизуйтесь для просмотра настроек`).catch(handleTokenError);
+                    } else {
+                        bot.sendMessage(
+                            window.telegram.chatId,
+                            `Настройки\n\nСкрывать данные: *${s.autoHideData}*\nСкрывать данные в таблице: *${s.hideDataInTable}*`,
+                            { parse_mode: 'Markdown' }
+                        ).catch(handleTokenError);
+                    }
+                    break;
+                }
+            }
         });
-        logs.errors(e);
+
+        bot.onText(/\/start/, (msg) => {
+            bot.sendMessage(msg.chat.id, `Welcome, ${msg.from.first_name}`).catch(handleTokenError);
+        });
+
+    } catch (e) {
+        handleTokenError(e);
+    }
+}
+
+// Глобальная функция для отправки сообщений из других частей приложения
+window.sendMessage = async function (message) {
+    if (!message || !window.telegram.bot || !window.telegram.chatId) return;
+    try {
+        await window.telegram.bot.sendMessage(window.telegram.chatId, message);
+    } catch (e) {
+        handleTokenError(e);
         return e;
+    }
+};
+
+function handleTokenError(e) {
+    console.error(e);
+    try {
+        window.logs?.use?.(null, String(e), 'error');
+        window.notification?.use?.('Token error', 'Ваш токен для телеграма не валиден, пожалуйста обновите его');
+    } catch { }
+    markTokenInvalid('Обновите токен');
+}
+
+function markTokenValid() {
+    if (typeof document === 'undefined') return;
+    document.querySelectorAll(".warning-text").forEach(el => {
+        el.classList.add("active");
+        el.innerText = 'Токен действителен';
     });
 }
 
-
-bot.on('message', function(req) {
-    let usrTime = {
-        h: (player.user.uptime[0] < 9) ? '0' + player.user.uptime[0] : player.user.uptime[0],
-        m: (player.user.uptime[1] < 9) ? '0' + player.user.uptime[1] : player.user.uptime[1],
-        s: (player.user.uptime[2] < 9) ? '0' + player.user.uptime[2] : player.user.uptime[2]
-    }
-    
-    switch(req.text) {
-        case '/passwords':
-            bot.sendDocument(chat_id, `${m_dir}/passwords.json`);
-            break;
-
-        case '/user':
-            if(!settingsCfg) {
-                bot.sendMessage(chat_id, `Пользователь *${player.user.login}*\n\nТекущий IP: *${player.user.ip}*\nРгеистрация: *${player.user.createdAt}*\nПаролей: *авторизуйстесь*\nВремя проведённое в приложении: *${usrTime.h}:${usrTime.m}:${usrTime.s}*\n\nСчётчик:\nОшибок входа: ${player.counter.fail_access}\nАвторизаций: ${player.counter.login_times}`, {
-                    parse_mode: 'Markdown'
-                });
-            } else {
-                bot.sendMessage(chat_id, `Пользователь *${player.user.login}*\n\nТекущий IP: *${player.user.ip}*\nРгеистрация: *${player.user.createdAt}*\nПаролей: *${passwords.length}*\nВремя проведённое в приложении: *${usrTime.h}:${usrTime.m}:${usrTime.s}*\n\nОшибок входа: ${player.counter.fail_access}\nАвторизаций: ${player.counter.login_times}`, {
-                    parse_mode: 'Markdown'
-                });
-            }
-            break;
-
-        case '/logs':
-            bot.sendDocument(chat_id, `${m_dir}/logs.json`);
-            break;
-
-        case '/settings':
-            if(!settingsCfg) {
-                bot.sendMessage(chat_id, `Авторизуйтесь для просмотра настроек`);
-            } else {
-                bot.sendMessage(chat_id, `Настройки\n\nСкрывать данные: *${settingsCfg.autoHideData}*\nСкрывать данные в таблице: *${settingsCfg.hideDataInTable}*`,{
-                    parse_mode: 'Markdown'
-                });
-            }
-            
-            break;
-    }
-});
-
-bot.onText(/\/start/, (msg) => {
-    bot.sendMessage(msg.chat.id, `Welcome, ${msg.from.first_name}`)
-    .catch(e => {
-        logs.use(null, `${e}`, 'error');
-        notification.use('Token error', 'Ваш токен для телеграма не валиден, пожалуйста обновите его');
-        let warningTxt = document.querySelectorAll(".warning-text");
-        warningTxt.forEach(x => {
-            x.classList.remove("active")
-            x.innerText = 'Обновите токен'
-        });
-        logs.errors(e);
-        return e;
-    });
-});
-
-
-if(token != '') {
-    let warningTxt = document.querySelectorAll(".warning-text");
-    warningTxt.forEach(x => {
-        x.classList.add("active")
-        x.innerText = 'Токен действителен'
+function markTokenInvalid(text) {
+    if (typeof document === 'undefined') return;
+    document.querySelectorAll(".warning-text").forEach(el => {
+        el.classList.remove("active");
+        el.innerText = text || 'Обновите токен';
     });
 }

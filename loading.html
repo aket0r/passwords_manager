@@ -1,118 +1,232 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Загрузка...</title>
+  <meta charset="UTF-8" />
+  <title>Загрузка…</title>
   <style>
     body {
-      font-family: sans-serif;
-      background-color: #1e1e1e;
-      color: #00ff99;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: #1e1e1e;
+      color: #d9d9d9;
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
       height: 100vh;
       flex-direction: column;
-      position: relative;
-      overflow: hidden;
+    }
+
+    h2 {
+      margin: 0 0 8px
     }
 
     #status {
-      margin-top: 10px;
-      font-size: 16px;
       white-space: pre-wrap;
+      width: min(760px, 90vw);
+      line-height: 1.35
     }
 
-    #close-btn {
-      position: absolute;
-      top: 10px;
-      right: 20px;
-      color: #ff5555;
-      font-size: 20px;
-      cursor: pointer;
+    .actions {
+      margin-top: 14px;
+      display: flex;
+      gap: 10px
     }
 
-    #close-btn:hover {
-      color: red;
+    button {
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 1px solid #444;
+      background: #222;
+      color: #fff;
+      cursor: pointer
+    }
+
+    button:hover {
+      background: #2a2a2a
+    }
+
+    .hidden {
+      display: none
     }
   </style>
 </head>
+
 <body>
-  <div id="close-btn" title="Закрыть">✖</div>
-  <h2>Проверка файлов...</h2>
-  <div id="status">Инициализация...</div>
+  <h2>Проверка окружения…</h2>
+  <div id="status">Инициализация…</div>
+  <div class="actions">
+    <button id="btn-install" class="hidden">Установить MongoDB автоматически</button>
+    <button id="btn-skip" class="hidden">Пропустить и продолжить</button>
+  </div>
 
   <script>
-    const { ipcRenderer } = require('electron');
-    const fs = require('fs');
-    const os = require('os');
-    const path = require('path');
-  
-    const status = document.getElementById("status");
-    const closeBtn = document.getElementById("close-btn");
-  
+    // Требуется nodeIntegration: true (в твоём main уже так)
+    const { ipcRenderer, shell } = require("electron");
+    const { execFile, exec, spawn } = require("child_process");
+    const fs = require("fs");
+    const os = require("os");
+    const path = require("path");
+
+    // === Настройки (можно вынести в .env и прокинуть через process.env) ===
+    const MONGODB_DOWNLOAD_URL = process.env.MONGODB_DOWNLOAD_URL || "";// например: "https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-7.0.13-signed.msi"
+    const MONGODB_EXPECTED_BIN = process.env.MONGODB_BIN || "";          // если знаешь точный путь к mongod.exe
+
+    const statusEl = document.getElementById("status");
+    const btnInstall = document.getElementById("btn-install");
+    const btnSkip = document.getElementById("btn-skip");
+
     const log = (msg) => {
-      status.textContent += `\n[${new Date().toLocaleTimeString()}] ${msg}`;
+      statusEl.textContent += `\n[${new Date().toLocaleTimeString()}] ${msg}`;
     };
-  
-    closeBtn.addEventListener('click', () => {
-      window.close();
-    });
-  
-    async function checkAndCreateFiles() {
-      const user = os.userInfo().username;
-      const basePaths = [
-        `C:/Users/${user}/Documents/passwords_data`,
-        `C:/Users/${user}/OneDrive/Documents/passwords_data`
-      ];
-  
-      let basePath = basePaths.find(p => fs.existsSync(p));
-      let wasCreated = false;
-  
-      if (!basePath) {
-        basePath = basePaths[0];
-        log(`No directory "passwords_data"`);
-        log(`Creating directory "passwords_data"...`);
-        fs.mkdirSync(basePath, { recursive: true });
-        wasCreated = true;
-      }
-  
-      log(`Using: ${basePath}`);
-  
-      const files = [
-        { name: 'logs.json', content: [] },
-        { name: 'passwords.json', content: [] },
-        { name: 'user.json', content: [] },
-        { name: 'settings.json', content: {} } // <-- объект
-      ];
-  
-      for (const file of files) {
-        const fullPath = path.join(basePath, file.name);
-        if (!fs.existsSync(fullPath)) {
-          log(`No file ${file.name}...`);
-          log(`Creating file ${file.name}...`);
-          fs.writeFileSync(fullPath, JSON.stringify(file.content, null, 2), 'utf-8');
-          wasCreated = true;
-        } else {
-          log(`File ${file.name} exists.`);
+
+    function execPromise(cmd, opts = {}) {
+      return new Promise((resolve, reject) => {
+        exec(cmd, opts, (err, stdout, stderr) => {
+          if (err) return reject(err);
+          resolve({ stdout, stderr });
+        });
+      });
+    }
+
+    function fileExists(p) {
+      try { return fs.existsSync(p); } catch { return false; }
+    }
+
+    function findMongoWindows() {
+      // Частые пути установки
+      const base = "C:/Program Files/MongoDB/Server";
+      if (fileExists(base)) {
+        const versions = fs.readdirSync(base).sort().reverse(); // последнюю вперёд
+        for (const v of versions) {
+          const bin = path.join(base, v, "bin", "mongod.exe");
+          if (fileExists(bin)) return bin;
         }
       }
-  
-      if (wasCreated) {
-        log(`Файлы созданы. Перезапуск приложения...`);
-        setTimeout(() => {
-          ipcRenderer.send('loading-complete');
-        }, 1000);
+      // Chocolatey
+      const choco = "C:/ProgramData/chocolatey/lib/mongodb/tools/bin/mongod.exe";
+      if (fileExists(choco)) return choco;
+
+      // Пользовательские
+      if (MONGODB_EXPECTED_BIN && fileExists(MONGODB_EXPECTED_BIN)) return MONGODB_EXPECTED_BIN;
+
+      return null;
+    }
+
+    function findMongoUnix() {
+      const candidates = ["/usr/bin/mongod", "/usr/local/bin/mongod"];
+      for (const c of candidates) if (fileExists(c)) return c;
+      return null;
+    }
+
+    async function detectMongo() {
+      log("Проверяю mongod в PATH…");
+      try {
+        const { stdout } = await execPromise("mongod --version");
+        log("Найден в PATH:\n" + stdout.split("\n")[0]);
+        return "mongod";
+      } catch (_) {
+        log("В PATH не найден.");
+      }
+
+      if (process.platform === "win32") {
+        const bin = findMongoWindows();
+        if (bin) {
+          log("Найден установленный mongod: " + bin);
+          return `"${bin}"`;
+        }
       } else {
-        log(`Все файлы в порядке. Запуск приложения...`);
-        setTimeout(() => {
-          ipcRenderer.send('loading-complete');
-        }, 1000);
+        const bin = findMongoUnix();
+        if (bin) {
+          log("Найден установленный mongod: " + bin);
+          return bin;
+        }
+      }
+
+      return null;
+    }
+
+    async function installMongoWindows() {
+      if (!MONGODB_DOWNLOAD_URL) {
+        log("❌ Не задан MONGODB_DOWNLOAD_URL. Укажи ссылку на MSI Community в .env или в коде.");
+        return false;
+      }
+      try {
+        const tmp = path.join(os.tmpdir(), "mongodb.msi");
+        log("Скачиваю MongoDB MSI…");
+        // Скачаем через PowerShell (у пользователя обычно есть)
+        await execPromise(`powershell -Command "Invoke-WebRequest -Uri '${MONGODB_DOWNLOAD_URL}' -OutFile '${tmp}'"`);
+
+        log("Запускаю тихую установку (потребуются права администратора)…");
+        // /qn — тихо, /norestart — без перезагрузки
+        await execPromise(`msiexec /i "${tmp}" /qn /norestart`);
+
+        log("MongoDB установлена. Проверяю бинарник…");
+        const bin = findMongoWindows();
+        if (bin) {
+          log("ОК: " + bin);
+          return true;
+        }
+        log("⚠️ Установка прошла, но бинарник не найден по стандартным путям. Проверь вручную.");
+        return false;
+      } catch (err) {
+        log("❌ Ошибка авто-установки: " + err.message);
+        return false;
       }
     }
-  
-    window.onload = checkAndCreateFiles;
+
+    async function ensureMongo() {
+      try {
+        const bin = await detectMongo();
+        if (bin) {
+          log("MongoDB доступна. Продолжаю запуск…");
+          setTimeout(() => ipcRenderer.send("loading-complete"), 700);
+          return;
+        }
+
+        log("MongoDB не обнаружена.");
+        if (process.platform === "win32") {
+          btnInstall.classList.remove("hidden");
+          btnSkip.classList.remove("hidden");
+          log("Нажми «Установить MongoDB автоматически» или установи вручную и нажми «Пропустить».");
+        } else if (process.platform === "darwin") {
+          log("Установи MongoDB вручную (например: brew tap mongodb/brew && brew install mongodb-community).");
+          btnSkip.classList.remove("hidden");
+        } else {
+          log("Установи MongoDB вручную (например: sudo apt-get install -y mongodb-org) и нажми «Пропустить».");
+          btnSkip.classList.remove("hidden");
+        }
+      } catch (err) {
+        log("❌ Ошибка проверки: " + err.message);
+        btnSkip.classList.remove("hidden");
+      }
+    }
+
+    btnInstall?.addEventListener("click", async () => {
+      btnInstall.disabled = true;
+      const ok = await installMongoWindows();
+      if (ok) {
+        log("Пробую найти mongod после установки…");
+        const bin = await detectMongo();
+        if (bin) {
+          log("Готово. Запуск приложения…");
+          setTimeout(() => ipcRenderer.send("loading-complete"), 800);
+          return;
+        }
+      }
+      btnInstall.disabled = false;
+      log("Если не получилось — установи MongoDB вручную и нажми «Пропустить».");
+    });
+
+    btnSkip?.addEventListener("click", () => {
+      log("Продолжаю без проверки/установки MongoDB.");
+      ipcRenderer.send("loading-complete");
+    });
+
+    (async () => {
+      statusEl.textContent = "Инициализация…";
+      await ensureMongo();
+    })();
   </script>
-  
 </body>
+
 </html>

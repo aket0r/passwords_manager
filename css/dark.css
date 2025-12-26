@@ -2,12 +2,12 @@
 
 .left .left-bar button {
     background-color: #111 !important;
- 
+
 }
 
 .left .left-bar button i {
     color: #fff !important;
- 
+
 }
 
 .left .left-bar button:last-child {
@@ -17,216 +17,244 @@
 
 .left .left-bar .top button:first-child {
     border-bottom: none !important;
- 
+
 }
 
-.left, .main {
+.left,
+.main {
     background-color: #111 !important;
     color: #fff !important;
- 
+
 }
 
 body {
     background: #222 !important;
- 
+
 }
 
 .profile-page .profile-content ul li input {
     border: 1px solid #333 !important;
     background: #222 !important;
     color: #fff;
- 
+
 }
 
 .profile-page .profile-content ul li {
     color: #fff !important;
- 
+
 }
+
 .profile-page .profile-content ul li strong {
     color: #fff !important;
- 
+
 }
 
 .profile-page .profile-content ul li strong#user-uptime-status {
     color: limegreen !important;
- 
+
 }
 
 .profile-page .profile-content ul#keyboard li strong {
     background: #233b85 !important;
- 
-}
-.left .left-bar button:active {
-    background-color: #223 !important;
- 
+
 }
 
-.main .passwords #passwords-path .title .password-item div, .main .passwords #passwords-path .main-path .password-item div {
+.left .left-bar button:active {
+    background-color: #223 !important;
+
+}
+
+.main .passwords #passwords-path .title .password-item div,
+.main .passwords #passwords-path .main-path .password-item div {
     background: #111 !important;
     border: 1px solid #333 !important;
     border-top: 1px solid #333 !important;
- 
+
 }
-.main .passwords #passwords-path .title .password-item, .main .passwords #passwords-path .main-path .password-item {
+
+.main .passwords #passwords-path .title .password-item,
+.main .passwords #passwords-path .main-path .password-item {
     color: #ddd !important;
 }
-.main .buttons button, .main .buttons input {
+
+.main .buttons button,
+.main .buttons input {
     background-color: #222 !important;
     border: 1px solid #fff !important;
     color: #fff !important;
- 
-}
-.main .buttons input::placeholder {
-    color: #ddd !important;
- 
+
 }
 
-.main .buttons button, .main .buttons input {
-    border: 1px solid #233b85 !important;
- 
+.main .buttons input::placeholder {
+    color: #ddd !important;
+
 }
+
+.main .buttons button,
+.main .buttons input {
+    border: 1px solid #233b85 !important;
+
+}
+
 .main .buttons button {
     background-color: #233b85 !important;
- 
+
 }
 
 #create-new-pass-bar .main-content {
     background-color: #111 !important;
     color: #fff !important;
- 
+
 }
+
 #create-new-pass-bar .main-content .content input,
- #create-new-pass-bar .main-content button,
-  #create-new-pass-bar .main-content .content select,
-   #create-new-pass-bar .main-content .content select option {
+#create-new-pass-bar .main-content button,
+#create-new-pass-bar .main-content .content select,
+#create-new-pass-bar .main-content .content select option {
     background: #222 !important;
     border: 2px solid #222 !important;
     color: #fff !important;
- 
+
 }
+
 #create-new-pass-bar .main-content #close-created-bar-btn {
     border: 1.5px solid #333 !important;
- 
+
 }
+
 .edit-pass-bar #main-edit-page .top-bar button {
     background-color: #222 !important;
     color: #fff !important;
- 
+
 }
 
 .edit-pass-bar #main-edit-page {
     background-color: #111 !important;
- 
+
 }
+
 .edit-pass-bar #main-edit-page .top-bar .center-title {
     color: #fff !important;
- 
+
 }
 
 .edit-pass-bar #main-edit-page .last-inputs ul li input {
     border: 1px solid #222 !important;
     background: #222;
     color: #fff;
- 
+
 }
+
 .edit-pass-bar #main-edit-page .log-data p {
     color: #fff !important;
- 
+
 }
-.main .passwords #passwords-path .main-path .password-item div.edit-pass:active, .main .passwords #passwords-path .main-path .password-item div.del-pass:active,
+
+.main .passwords #passwords-path .main-path .password-item div.edit-pass:active,
+.main .passwords #passwords-path .main-path .password-item div.del-pass:active,
 .main .passwords #passwords-path .title .password-item div:active {
     background-color: #222 !important;
- 
+
 }
 
 .main .content-in h1 {
     color: #fff !important;
- 
+
 }
 
 .settings-page section .settings-buttons .item label {
     background-color: #111 !important;
     border: 1px solid #333;
- 
+
 }
 
 .console #container .history {
     border-top: 1px solid #222;
     border-bottom: 1px solid #222;
- 
+
 }
 
 .console #container .history #item-console-content div {
     border-bottom: 1px solid #222 !important;
- 
+
 }
 
 .console #container .history #item-console-content div:first-child {
     background: #111 !important;
     color: #fff !important;
     border-right: 1px solid #222;
- 
+
 }
 
 .console #container .history #item-console-content.success div:last-child {
     color: green !important;
- 
+
 }
 
 .console #container {
     background-color: #111 !important;
- 
+
 }
 
 .console #container .write textarea {
     background-color: #222;
     color: #fff;
- 
+
 }
+
 .pincode .main-content {
     background-color: #111 !important;
     color: #fff;
- 
+
 }
+
 .pincode .main-content input {
     border: 1px solid #222 !important;
     background: #222 !important;
     color: #fff !important;
- 
+
 }
 
-.auth-reg-bar .steps .numbers div, .pincode .numbers div, .numbers-join div {
+.auth-reg-bar .steps .numbers div,
+.pincode .numbers div,
+.numbers-join div {
     border: 1px solid #222 !important;
- 
-}
-.auth-reg-bar .steps .numbers div:active, .pincode .numbers div:active, .numbers-join div:active {
-    background-color: #333 !important;
- 
+
 }
 
-.alert, .confirm {
+.auth-reg-bar .steps .numbers div:active,
+.pincode .numbers div:active,
+.numbers-join div:active {
+    background-color: #333 !important;
+
+}
+
+.alert,
+.confirm {
     background-color: #111 !important;
     border-top: 4px solid #222;
- 
+
 }
+
 .alert h1 {
     color: #fff !important;
- 
+
 }
+
 .alert p {
     color: #fff !important;
- 
+
 }
 
 .left .left-bar button {
     background-color: #111 !important;
     border-top: 1px solid #222 !important;
- 
+
 }
 
 .console #container .history #item-console-content div:last-child {
     background-color: #111 !important;
- 
+
 }
 
 .confirm-menu .container h1 {
@@ -261,6 +289,8 @@ body {
     color: #fff;
 }
 
-.auth-reg-bar .steps .numbers div, .pincode .numbers div, .numbers-join div {
+.auth-reg-bar .steps .numbers div,
+.pincode .numbers div,
+.numbers-join div {
     color: #fff;
 }

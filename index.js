@@ -1,3 +1,46 @@
+require("dotenv").config();
+
+// diag.js
+const { MongoClient } = require("mongodb");
+
+async function main() {
+    const uri = "mongodb://127.0.0.1:27017";
+    const client = new MongoClient(uri);
+
+    const config = {
+        dbName: "passwords-manager-db",
+        collections: ["users", "passwords", "logs", "system", "settings"],
+    };
+
+    try {
+        await client.connect();
+        console.log("[+] Connection to MongoDB loaded.");
+
+        const db = client.db(config.dbName);
+
+        for (const name of config.collections) {
+            try {
+                await db.createCollection(name);
+                console.log(`[+] Collection '${name}' created`);
+            } catch (err) {
+                if (err.codeName === "NamespaceExists") {
+                    console.log(`[!] Collection '${name}' is created`);
+                } else {
+                    throw err;
+                }
+            }
+        }
+    } finally {
+        await client.close();
+        console.log("[-] Connection closed.");
+    }
+}
+
+main().catch(console.error);
+
+
+
+
 const path = require("path");
 const url = require("url");
 const { app, BrowserWindow, Menu, Tray, ipcMain } = require("electron");
@@ -18,7 +61,7 @@ const config = {
 
 const trayMenuTemplate = [
     {
-        label: "Выйти",
+        label: "Exit",
         click: () => {
             forceQuit = true;
             app.quit();
@@ -134,7 +177,7 @@ ipcMain.on("loading-complete", () => {
 
 app.whenReady().then(createLoadingWindow);
 
-app.on("window-all-closed", () => {});
+app.on("window-all-closed", () => { });
 
 app.on("before-quit", () => {
     forceQuit = true;

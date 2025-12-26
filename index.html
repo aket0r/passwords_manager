@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,15 +10,16 @@
     <link rel="stylesheet" href="css/media.css">
     <title>Passwords</title>
 </head>
+
 <body>
     <script>
         function checkTheme() {
             const storage = localStorage.getItem("current-theme");
-            if(storage == null) {
+            if (storage == null) {
                 localStorage.setItem("current-theme", 0);
                 return;
             }
-            if(storage == '1') {
+            if (storage == '1') {
                 const cssLink = document.createElement("link");
                 cssLink.rel = "stylesheet";
                 cssLink.href = "css/dark.css";
@@ -55,14 +57,16 @@
                     <i class="fa fa-times" aria-hidden="true"></i>
                 </div>
                 <div class="title">
-                    <h1>Консоль <strong id="confidentially"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Confidentially </strong></h1>
+                    <h1>Консоль <strong id="confidentially"><i class="fa fa-exclamation-triangle"
+                                aria-hidden="true"></i> Confidentially </strong></h1>
                 </div>
                 <div class="history"></div>
                 <div class="write">
-                    <textarea id="console-command-val" cols="30" rows="10" placeholder="Enter JavaScript code here. alert('Hello World!')"></textarea>
-                </div>
+                    <textarea id="console-command-val" cols="30" rows="10"
+                        placeholder="Enter JavaScript code here. alert('Hello World!')"></textarea>
                 </div>
             </div>
+        </div>
         </div>
 
         <div class="alert hidden-animation">
@@ -100,17 +104,18 @@
                     <div class="num">9</div>
                     <div class="num">0</div>
                     <div class="btn backspace" style="width: 10px;"><i class="fa fa-minus" aria-hidden="true"></i></div>
-                    <div class="btn reset-values" style="width: 10px;"><i class="fa fa-trash-o" aria-hidden="true"></i></div>
+                    <div class="btn reset-values" style="width: 10px;"><i class="fa fa-trash-o" aria-hidden="true"></i>
+                    </div>
                 </div>
                 <script>
                     const backspace = document.querySelector(".backspace");
                     const pinInputVal = document.querySelector("#user-pincode");
-                    backspace.addEventListener("click", function() {
+                    backspace.addEventListener("click", function () {
                         pinInputVal.value = pinInputVal.value.slice(0, pinInputVal.value.length - 1);
                     });
 
                     const reset = document.querySelector(".reset-values");
-                    reset.addEventListener("click", function() {
+                    reset.addEventListener("click", function () {
                         pinInputVal.value = '';
                     })
                 </script>
@@ -138,7 +143,8 @@
                 </form>
                 <p>
                     Ваш логин и пароль может быть использовать для вход в аккаунт в случае если
-                    вы забудете ваш пин-код. Также если вы подключите уведомления с <strong class="important-title">Telegram</strong>
+                    вы забудете ваш пин-код. Также если вы подключите уведомления с <strong
+                        class="important-title">Telegram</strong>
                     вы будете получать уведомления о попытках входа через пин-код или логин/пароль
                 </p>
                 <button id="next" data-step="1" form="step-1-login" disabled>Продожить</button>
@@ -146,7 +152,8 @@
             <div id="step-2" class="steps hidden-animation hidden">
                 <h1 id="steps">Установка пин-кода</h1>
                 <div class="inputs">
-                    <input style="text-align: center;" placeholder="Придумайте пин-код" type="text" id="user-pincode-auth">
+                    <input style="text-align: center;" placeholder="Придумайте пин-код" type="text"
+                        id="user-pincode-auth">
                 </div>
                 <div class="numbers">
                     <div class="num">1</div>
@@ -159,18 +166,20 @@
                     <div class="num">8</div>
                     <div class="num">9</div>
                     <div class="num">0</div>
-                    <div class="btn backspace-reg" style="width: 10px;"><i class="fa fa-minus" aria-hidden="true"></i></div>
-                    <div class="btn reset-values-reg" style="width: 10px;"><i class="fa fa-trash-o" aria-hidden="true"></i></div>
+                    <div class="btn backspace-reg" style="width: 10px;"><i class="fa fa-minus" aria-hidden="true"></i>
+                    </div>
+                    <div class="btn reset-values-reg" style="width: 10px;"><i class="fa fa-trash-o"
+                            aria-hidden="true"></i></div>
                 </div>
                 <script>
                     const backspaceReg = document.querySelector(".backspace-reg");
                     const pinInputValReg = document.querySelector("#user-pincode-auth");
-                    backspaceReg.addEventListener("click", function() {
+                    backspaceReg.addEventListener("click", function () {
                         pinInputValReg.value = pinInputValReg.value.slice(0, pinInputValReg.value.length - 1);
                     });
 
                     const resetReg = document.querySelector(".reset-values-reg");
-                    resetReg.addEventListener("click", function() {
+                    resetReg.addEventListener("click", function () {
                         pinInputValReg.value = '';
                     })
                 </script>
@@ -189,36 +198,36 @@
                                 <img src="assets/imgs/BotFather-step-1-2.jpeg.png" alt="@BotFather" width="350px">
                                 <div class="text">Создайте нового бота в <strong>@BotFather</strong></div>
                             </div>
-                            
+
                             <div class="mySlides fade">
                                 <div class="numbertext">2 / 6</div>
-                                    <img src="assets/imgs/BotFather-step-1-3.jpeg.png" alt="@BotFather" width="350px">
+                                <img src="assets/imgs/BotFather-step-1-3.jpeg.png" alt="@BotFather" width="350px">
                                 <div class="text">Отправьте сообщение боту</div>
-                                </div>
+                            </div>
 
-                                <div class="mySlides fade">
+                            <div class="mySlides fade">
                                 <div class="numbertext">3 / 6</div>
-                                    <img src="assets/imgs/BotFather-step-1-4.jpeg.png" alt="@BotFather" width="350px">
+                                <img src="assets/imgs/BotFather-step-1-4.jpeg.png" alt="@BotFather" width="350px">
                                 <div class="text">Перешлите сообщение боту <strong>@RawDataBot</strong></div>
-                                </div>
+                            </div>
 
-                                <div class="mySlides fade">
+                            <div class="mySlides fade">
                                 <div class="numbertext">4 / 6</div>
-                                    <img src="assets/imgs/BotFather-step-1-5.jpeg.png" alt="@BotFather" width="350px">
+                                <img src="assets/imgs/BotFather-step-1-5.jpeg.png" alt="@BotFather" width="350px">
                                 <div class="text">Скопируйте <strong>Chat ID</strong></div>
-                                </div>
+                            </div>
 
-                                <div class="mySlides fade">
+                            <div class="mySlides fade">
                                 <div class="numbertext">5 / 6</div>
-                                    <img src="assets/imgs/BotFather-step-1-6.jpeg.png" alt="@BotFather" width="350px">
+                                <img src="assets/imgs/BotFather-step-1-6.jpeg.png" alt="@BotFather" width="350px">
                                 <div class="text">Скопируйте <strong>User ID</strong></div>
-                                </div>
+                            </div>
 
-                                <div class="mySlides fade">
+                            <div class="mySlides fade">
                                 <div class="numbertext">6 / 6</div>
-                                    <img src="assets/imgs/BotFather-step-1-7.jpeg.png" alt="@BotFather" width="350px">
+                                <img src="assets/imgs/BotFather-step-1-7.jpeg.png" alt="@BotFather" width="350px">
                                 <div class="text">Заполните поля и завершите регистрацию</div>
-                                </div>
+                            </div>
 
                             <!-- Next and previous buttons -->
                             <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
@@ -242,7 +251,9 @@
                         <p>
                             Инструкция по настрйке уведомлений от
                             вашего телеграм бота вы можете получить
-                            <a style="color: royalblue; text-decoration: none;" href="https://github.com/yagop/node-telegram-bot-api/tree/master/doc" target="_blank" title="https://github.com/yagop/node-telegram-bot-api/tree/master/doc">здесь</a>.
+                            <a style="color: royalblue; text-decoration: none;"
+                                href="https://github.com/yagop/node-telegram-bot-api/tree/master/doc" target="_blank"
+                                title="https://github.com/yagop/node-telegram-bot-api/tree/master/doc">здесь</a>.
                             <br>
                             <br>
                             Настроить уведомления можно в настройках
@@ -284,18 +295,22 @@
                         </li>
                     </ul>
                 </div>
-    
+
                 <div class="log-data">
                     <p>
                         Дата создания
                         <span class="createdAt">-</span>
+                    </p>
+                    <p class="isUpdated">
+                        Последнее обновление
+                        <span class="latest-update">-</span>
                     </p>
                 </div>
             </div>
             <script>
                 const cancelEditBtn = document.querySelector("#cancel-edit");
                 const editWin = document.querySelector(".edit-pass-bar");
-                cancelEditBtn.addEventListener("click", function() {
+                cancelEditBtn.addEventListener("click", function () {
                     editWin.classList.add("hidden-animation");
                 })
             </script>
@@ -330,7 +345,8 @@
                     <!-- HOME ICON -->
                     <i class="fa fa-home" aria-hidden="true"></i>
                 </button>
-                <button id="m-open-profile-btn" style="border-top: none; border-bottom: 1px solid var(--btn-background-color);">
+                <button id="m-open-profile-btn"
+                    style="border-top: none; border-bottom: 1px solid var(--btn-background-color);">
                     <!-- PROFILE ICON -->
                     <i class="fa fa-user" aria-hidden="true"></i>
                 </button>
@@ -404,7 +420,7 @@
                 <li>
                     Файлы<strong class="context" id="files-path">{{path}}</strong>
                 </li>
-                
+
                 <li>
                     Тема<strong class="context" id="user-theme-choose">{{theme}}</strong>
                 </li>
@@ -415,17 +431,26 @@
                     Дата регистрации<strong class="context" id="user-were-created">N/A</strong>
                 </li>
                 <li>
-                    Введите <a href="https://cobrasystems.nl/telegram-user-id/" title="https://cobrasystems.nl/telegram-user-id/" target="_blank" title="https://vkhost.github.io/">userid</a> (без @) <strong title="Текущий userid" class="context small p5" id="user-telegram-userid">N/A</strong>
+                    Введите <a href="https://cobrasystems.nl/telegram-user-id/"
+                        title="https://cobrasystems.nl/telegram-user-id/" target="_blank"
+                        title="https://vkhost.github.io/">userid</a> (без @) <strong title="Текущий userid"
+                        class="context small p5" id="user-telegram-userid">N/A</strong>
                     <input type="text" placeholder="@name" id="oauth-userid">
                     <span class="load-oauth-save" id="userid-status">Сохранено</span>
                 </li>
                 <li>
-                    Введите <a href="https://www.wikihow.com/Know-Chat-ID-on-Telegram-on-Android" title="https://www.wikihow.com/Know-Chat-ID-on-Telegram-on-Android" target="_blank" title="https://vkhost.github.io/">chat_id</a> <strong class="context small" title="Текущий chatid" id="user-telegram-chatid">N/A</strong>
+                    Введите <a href="https://www.wikihow.com/Know-Chat-ID-on-Telegram-on-Android"
+                        title="https://www.wikihow.com/Know-Chat-ID-on-Telegram-on-Android" target="_blank"
+                        title="https://vkhost.github.io/">chat_id</a> <strong class="context small"
+                        title="Текущий chatid" id="user-telegram-chatid">N/A</strong>
                     <input type="text" placeholder="chat_id" id="oauth-chatid">
                     <span class="load-oauth-save" id="chatid-status">Сохранено</span>
                 </li>
                 <li>
-                    Получить <a href="https://github.com/yagop/node-telegram-bot-api/tree/master/doc" title="https://github.com/yagop/node-telegram-bot-api/tree/master/doc" target="_blank" title="https://vkhost.github.io/">Telegram</a> токен <strong class="context" id="user-telegram-token">N/A</strong>
+                    Получить <a href="https://github.com/yagop/node-telegram-bot-api/tree/master/doc"
+                        title="https://github.com/yagop/node-telegram-bot-api/tree/master/doc" target="_blank"
+                        title="https://vkhost.github.io/">Telegram</a> токен <strong class="context"
+                        id="user-telegram-token">N/A</strong>
                     <input type="text" placeholder="oauth token" id="oauth-vk-token">
                     <span class="load-oauth-save" id="oauth-vk-token-save">Сохранено</span>
                 </li>
@@ -485,6 +510,12 @@
                 <li>
                     Консоль <strong class="context">F7</strong>
                 </li>
+            </ul>
+            <h2>Code</h2>
+            <hr>
+            <ul>
+                <li>Обновить токены "uid" внутри каждого объекта</li>
+                <pre style="font-family:monospace;color: rgb(201, 209, 217); background-color: rgb(13, 17, 23); font-weight: 400; "><ol style="padding-left: 3em;"><li><span style="color: rgb(255, 123, 114); font-weight: 400;">async</span> <span style="color: rgb(255, 123, 114); font-weight: 400;">function</span> <span style="color: rgb(210, 168, 255); font-weight: 400;">hashMissingUidsInPasswords</span>(<span style="color: rgb(201, 209, 217); font-weight: 400;"></span>) {</li><li> <span style="color: rgb(255, 123, 114); font-weight: 400;">await</span> db.<span style="color: rgb(210, 168, 255); font-weight: 400;">connectOnce</span>();</li><li> <span style="color: rgb(255, 123, 114); font-weight: 400;">const</span> collection = db.<span style="color: rgb(210, 168, 255); font-weight: 400;">col</span>(<span style="color: rgb(165, 214, 255); font-weight: 400;">"passwords"</span>);</li><li></li><li> <span style="color: rgb(255, 123, 114); font-weight: 400;">const</span> docs = <span style="color: rgb(255, 123, 114); font-weight: 400;">await</span> collection</li><li> .<span style="color: rgb(210, 168, 255); font-weight: 400;">find</span>({ <span style="color: rgb(121, 192, 255); font-weight: 400;">uid</span>: { <span style="color: rgb(121, 192, 255); font-weight: 400;">$exists</span>: <span style="color: rgb(121, 192, 255); font-weight: 400;">false</span> }, <span style="color: rgb(121, 192, 255); font-weight: 400;">id</span>: { <span style="color: rgb(121, 192, 255); font-weight: 400;">$exists</span>: <span style="color: rgb(121, 192, 255); font-weight: 400;">true</span> } })</li><li> .<span style="color: rgb(210, 168, 255); font-weight: 400;">toArray</span>();</li><li></li><li> <span style="color: rgb(255, 123, 114); font-weight: 400;">for</span> (<span style="color: rgb(255, 123, 114); font-weight: 400;">const</span> doc <span style="color: rgb(255, 123, 114); font-weight: 400;">of</span> docs) {</li><li> <span style="color: rgb(255, 123, 114); font-weight: 400;">const</span> newUid = <span style="color: rgb(210, 168, 255); font-weight: 400;">md5</span>(<span style="color: rgb(210, 168, 255); font-weight: 400;">String</span>(doc.<span style="color: rgb(201, 209, 217); font-weight: 400;">id</span>));</li><li> <span style="color: rgb(255, 123, 114); font-weight: 400;">await</span> collection.<span style="color: rgb(210, 168, 255); font-weight: 400;">updateOne</span>(</li><li>      { <span style="color: rgb(121, 192, 255); font-weight: 400;">_id</span>: doc.<span style="color: rgb(201, 209, 217); font-weight: 400;">_id</span> },</li><li>        { <span style="color: rgb(121, 192, 255); font-weight: 400;">$set</span>: { <span style="color: rgb(121, 192, 255); font-weight: 400;">uid</span>: newUid } }</li><li>      );</li><li>      <span style="color: rgb(255, 123, 114); font-weight: 400;">console</span>.<span style="color: rgb(210, 168, 255); font-weight: 400;">log</span>(<span style="color: rgb(165, 214, 255); font-weight: 400;">`+ uid created for id=<span style="color: rgb(201, 209, 217); font-weight: 400;">${doc.id}</span> -&gt; <span style="color: rgb(201, 209, 217); font-weight: 400;">${newUid}</span>`</span>);</li><li> }</li><li> <span style="color: rgb(255, 123, 114); font-weight: 400;">console</span>.<span style="color: rgb(210, 168, 255); font-weight: 400;">log</span>(<span style="color: rgb(165, 214, 255); font-weight: 400;">"✅ uid добавлены тем, у кого их не было"</span>);</li><li>}</li></ol></pre>
             </ul>
         </div>
     </section>
@@ -549,8 +580,8 @@
         }
         getIP();
     </script>
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-
+    <!-- <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script> -->
+    <script src="https://unpkg.com/vue@3.4.21/dist/vue.global.js"></script>
     <script src="js/array.js"></script>
     <script src="js/vue.js"></script>
     <script src="js/notifications.js"></script>
@@ -562,7 +593,7 @@
     <script>
         let consoleCloseBtn = document.querySelector(".console #container .close");
         let consoleWin = document.querySelector(".console")
-        consoleCloseBtn.addEventListener("click", function() {
+        consoleCloseBtn.addEventListener("click", function () {
             consoleWin.classList.add("hidden-animation");
         })
     </script>
@@ -570,4 +601,5 @@
         require('./render.js');
     </script>
 </body>
+
 </html>

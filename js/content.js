@@ -4,24 +4,24 @@ class Content {
         this.load(false);
     }
 
-    create(obj, update = true, index = 0) {
+    create(obj, update = true, uid = md5(new Date().getTime())) {
         const path = document.querySelector(".main-path");
         const item = document.createElement("div");
-        item.setAttribute(`data-brain-index-${index}`, index)
+        item.setAttribute(`data-brain-index-${uid}`, uid)
         item.className = 'password-item';
         let type = (obj.type == 'app') ? 'fa fa-th-large' : 'fa fa-external-link';
         let typeContent = (obj.type == 'app') ? 'Приложение' : 'Веб-сайт';
-        if(obj.source.indexOf('https') < 0 || obj.source.indexOf('http') < 0) {
+        if (obj.source.indexOf('https') < 0 || obj.source.indexOf('http') < 0) {
             obj.source = `https://${obj.source}`;
         }
-        let firstSymbolInPass = obj.password.slice(0,2);
-        let firstSymbolInLog = obj.login.slice(0,2);
+        let firstSymbolInPass = obj.password.slice(0, 2);
+        let firstSymbolInLog = obj.login.slice(0, 2);
         let hidePass = `${firstSymbolInPass}*******`;
         let hideLog = `${firstSymbolInLog}*******`;
 
         let simpleSource = obj.source?.replace('https', '')?.replaceAll('/', '')?.replace(':', '')?.replace('http', '');
-        item.innerHTML = 
-        `
+        item.innerHTML =
+            `
         <div class="type-icon">
             <span class="pass-type-icon app" style="color: royalblue; cursor: default;">
                 <i class="${type}" aria-hidden="true"></i>
@@ -42,77 +42,75 @@ class Content {
         <div class="created-at">
             <span class="created-at-text" >${obj.createdAt}</span>
         </div>
-        <div class="edit-pass" onclick="editCurrentPassword(event, id = ${index})">
-            <span class="edit-pass-btn">Редактировать</span>
+        <div class="act-btn edit-pass" data-uid="${uid}">
+            <span class="edit-pass-btn" data-uid="${uid}">Редактировать</span>
         </div>
-        <div class="del-pass" onclick="deletePassowrd(event)" data-index="${index}">
-            <span class="delete-pass-btn" data-index="${index}">Удалить</span>
+        <div class="act-btn del-pass" data-uid="${uid}">
+            <span class="delete-pass-btn" data-uid="${uid}">Удалить</span>
         </div>
         `
         path.prepend(item);
-        if(update) {
-            passwords.push({
-                type: obj.type,
-                source: obj.source,
-                login: obj.login,
-                password: obj.password,
-                createdAt: new Date().toLocaleString(),
-                id: passwords.length
-            })
+        const data = {
+            type: obj.type,
+            source: obj.source,
+            login: obj.login,
+            password: obj.password,
+            createdAt: new Date().toLocaleString(),
+            uid: uid
+        }
+        if (update) {
+            passwords.push(data)
             logs.use(null, `Новый пользователь добавлен!`, 'success', true);
-            this.update();
+            this.add(data);
         }
         removeBtns = document.querySelectorAll(".passwords .main-path .delete-pass-btn");
         passwordsList = document.querySelectorAll(".passwords .main-path .password-item");
     }
 
-    update() {
-        let directionName = 'passwords_data';
-        let dir = os.userInfo().homedir.replaceAll('\\', '/');
-        let m_dir = `${dir}/Documents/${directionName}`;
-        passwords = passwords.filter(x => {
-            return x != 'empty';
-        })
-        fs.writeFileSync(`${m_dir}/passwords.json`, JSON.stringify(passwords, null, '\t'));
+    update(uid, data) {
+        db.updateData('passwords', { uid: uid }, data);
     }
 
-    load(login = false) {
-        if(!login) return;
+    add(data) {
+        db.insertData('passwords', data)
+    }
+
+    async load(login = false) {
+        if (!login) return;
         console.log("Content created!");
-        let directionName = 'passwords_data';
-        let dir = os.userInfo().homedir.replaceAll('\\', '/');
-        let m_dir = `${dir}/Documents/${directionName}`
+        await db.getPasswords('passwords').then(data => passwords = data);
+        await db.getDBData('settings').then(data => {
+            if (data.length === 0) {
+                db.insertData('settings', {
+                    autoHideData: user.getQuery('.item')[0].childNodes[1].childNodes[1].checked,
+                    hideDataInTable: user.getQuery('.item')[2].childNodes[1].childNodes[1].checked
+                });
+            } else {
+                settingsCfg = data[0];
+            }
+        });
 
-        let bufferData = fs.readFileSync(`${m_dir}/passwords.json`);
-        let stData = bufferData.toString();
-        let data = JSON.parse(stData);
-        passwords = data;
 
-        let readSettings = fs.readFileSync(`${m_dir}/settings.json`);
-        let string = readSettings.toString();
-        let settingsConfig = JSON.parse(string);
-        settingsCfg = settingsConfig;
-
-        passwords.forEach((el, index) => {
+        passwords.forEach((el) => {
             this.create({
                 type: el.type,
                 source: el.source,
                 login: el.login,
                 password: el.password,
                 createdAt: el.createdAt
-            }, false, index)
+            }, false, el.uid);
             passList.innerText = `${passwords.length}`;
         });
         let userCreatedAtTxt = document.querySelector("#user-were-created");
-        userCreatedAtTxt.innerText = player.user.createdAt;
-        time.h = player.user.uptime[0] || 0;
-        time.m = player.user.uptime[1] || 0;
-        time.s = player.user.uptime[2] || 0;
+        userCreatedAtTxt.innerText = player[0].user.createdAt;
+        time.h = player[0].user.uptime[0] || 0;
+        time.m = player[0].user.uptime[1] || 0;
+        time.s = player[0].user.uptime[2] || 0;
         time.h = (time.h < 10) ? '0' + time.h : time.h;
         time.m = (time.m < 10) ? '0' + time.m : time.m;
         time.s = (time.s < 10) ? '0' + time.s : time.s;
         recordUptime();
-        if(!settingsCfg.autoHideData) {
+        if (!settingsCfg.autoHideData) {
             let checkbox = document.querySelector(".item label input");
             checkbox.checked = false;
             unlockData();
@@ -129,15 +127,14 @@ const loginOfEl = document.querySelector("#new-login-value");
 const passwordOfEl = document.querySelector("#new-password-value");
 const typeOfEl = document.querySelector("#type");
 const typeSelectOfEl = document.querySelectorAll("#type option");
-createBtn.addEventListener("click", function() {
-    let index = (passwords.length == 0) ? 0 : passwords.length - 1;
+createBtn.addEventListener("click", function () {
     content.create({
         type: (typeOfEl.selectedIndex == 1) ? 'app' : 'web',
         source: sourceOfEl.value,
         login: loginOfEl.value,
         password: passwordOfEl.value,
         createdAt: new Date().toLocaleString()
-    }, true, index);
+    }, true, md5(new Date().getTime()));
     passList.innerText = passwords.length;
     // console.log(passwords.length);
 })
