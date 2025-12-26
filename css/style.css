@@ -498,6 +498,16 @@ body {
     display: block;
 }
 
+}
+
+.edit-pass-bar #main-edit-page .log-data p.isUpdated span {
+    color: #4bb34b;
+}
+
+.edit-pass-bar #main-edit-page .log-data p.isUpdated.active {
+    display: block;
+}
+
 .edit-pass-bar #main-edit-page .log-data p span {
     position: absolute;
     right: 5%;
@@ -1486,6 +1496,9 @@ body {
 .mySlides {
     display: none;
 }
+
+/* Next & previous buttons */
+
 
 /* Next & previous buttons */
 
